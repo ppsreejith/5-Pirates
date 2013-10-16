@@ -23,4 +23,6 @@ def login(request):
             token_reponse = requests.get('https://graph.facebook.com/oauth/access_token?client_id=414682281965382&redirect_uri=http://localhost:8000/login/&client_secret=aa6b5e6eb4399581d7fc00e0cbc3eb93&code=%s'%fb_code).json()
             user_data = requests.get('https://graph.facebook.com/me?access_token=%s'%token_reponse['access_token']).content
             return HTTPResponse(user_data)
+    except Exception:
+        pass
     return redirect('index')
