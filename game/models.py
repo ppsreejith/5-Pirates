@@ -15,8 +15,8 @@ class Profile(models.Model):
 class Round(models.Model):
     position_one = models.PositiveIntegerField()
     position_two = models.PositiveIntegerField()
-    player_one = models.ForeignKey(Profile)
-    player_two = models.ForeignKey(Profile)
+    player_one = models.ForeignKey(Profile,related_name='round_player_one')
+    player_two = models.ForeignKey(Profile,related_name='round_player_two')
     amount = models.PositiveIntegerField()
     times = models.PositiveIntegerField(default = 0) #No: of times entries have been edited.
     session = models.PositiveIntegerField() #Current Session Number
@@ -57,19 +57,19 @@ class Round(models.Model):
         
         for pos, amount in zip( players_dict, amounts ):
             cls.create_or_update(amount,
-                                 { position_one = position,
-                                   position_two = pos,
-                                   player_one = player,
-                                   player_two = players_dict[pos],
-                                   session = session })
+                                 { position_one : position,
+                                   position_two : pos,
+                                   player_one : player,
+                                   player_two : players_dict[pos],
+                                   session : session })
         
 
-class RoundAllotment():
-    pos1 = models.ForeignKey(Profile)
-    pos2 = models.ForeignKey(Profile)
-    pos3 = models.ForeignKey(Profile)
-    pos4 = models.ForeignKey(Profile)
-    pos5 = models.ForeignKey(Profile)
+class RoundAllotment(models.Model):
+    pos1 = models.ForeignKey(Profile, related_name = 'roundallottment_pos1')
+    pos2 = models.ForeignKey(Profile, related_name = 'roundallottment_pos2')
+    pos3 = models.ForeignKey(Profile, related_name = 'roundallottment_pos3')
+    pos4 = models.ForeignKey(Profile, related_name = 'roundallottment_pos4')
+    pos5 = models.ForeignKey(Profile, related_name = 'roundallottment_pos5')
     session = models.PositiveIntegerField()
     
     class Meta:

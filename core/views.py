@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.http import HttpResponse
 from game.models import Profile
-import requests
+from urllib2 import Request,urlopen
+import json
 
 def index(request, message = ''):
     if request.user.is_authenticated():
@@ -19,12 +20,15 @@ def login(request):
     # We then obtain user info using the `access token` and proceed to
     # either log him in or sign him up.
     
+    redirect_uri = 'http://localhost:8000/login/'
+    
     fb_code = request.GET.get('code')
     try:
         if fb_code is not None:
-            token_response = requests.get('https://graph.facebook.com/oauth/access_token?client_id=414682281965382&redirect_uri=http://ppsreejith.ktj.in:8000/login/&client_secret=aa6b5e6eb4399581d7fc00e0cbc3eb93&code=%s'%fb_code).content
+            r = urlopen(Request('https://graph.facebook.com/oauth/access_token?client_id=414682281965382&redirect_uri=%s&client_secret=aa6b5e6eb4399581d7fc00e0cbc3eb93&code=%s'%(redirect_uri,fb_code)))
+            token_response = r.read()
 	    token_response = token_response.split('&')[0]
-            user_data = requests.get('https://graph.facebook.com/me?scope=email&%s'%token_response).json()
+            user_data = json.load(urlopen(Request('https://graph.facebook.com/me?scope=email&%s'%token_response)))
             if 'error' in user_data:
                 raise Exception("Error in retrieving data")
             try:

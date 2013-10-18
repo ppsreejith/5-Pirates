@@ -1,5 +1,13 @@
-<!doctype html />
+<!doctype html/>
+{% load static %}
 <html>
-<head></head>
-<body>Game Body Here</body>
+<head>
+<script>static="{% static %}";</script>
+<title>Brethren of the coast</title>
+<link rel="stylesheet" href="{{static_url}}{% less "css/less/global.less" %}" />
+<script src="{% static "js/require.js" %}" data-main="{% static "js/main.js" %}" ></script>
+</head>
+<body>
+
+</body>
 </html>
