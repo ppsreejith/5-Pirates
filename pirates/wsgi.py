@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/
 
 import os
 import sys
-sys.path.append('/home/ktj/sreejith/5-pirates')
+sys.path.append('/home/kgts/5-pirates')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pirates.settings")
 
 from django.core.wsgi import get_wsgi_application

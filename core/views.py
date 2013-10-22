@@ -21,7 +21,7 @@ def login(request):
     # We then obtain user info using the `access token` and proceed to
     # either log him in or sign him up.
     
-    redirect_uri = 'http://kgts.in:8000/login/'
+    redirect_uri = 'http://brethren.kgts.in/login/'
     
     fb_code = request.GET.get('code')
     try:
