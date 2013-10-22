@@ -8,20 +8,18 @@ import json
 
 def index(request,message = ''):
     if request.user.is_authenticated():
-        message = 'You have been successfully registered.'
+        message = request.user.username + ', You have been registered. Session starts on 25th Oct, 9:00 PM. Follow us on facebook. https://www.facebook.com/The.KGTS. You can login again under a different facebook account.'
         #return redirect('game')
     return render(request,'index.html',{'message':message})
 
 def login(request):
-    if request.user.is_authenticated():
-        return redirect('index')
     
     # The workflow is: we get the `code` from the get request.
     # We then proceed to exchange it for an `access token` from facebook.
     # We then obtain user info using the `access token` and proceed to
     # either log him in or sign him up.
     
-    redirect_uri = 'http://brethren.kgts.in/login/'
+    redirect_uri = 'http://brethren.kgts.in:9000/login/'
     
     fb_code = request.GET.get('code')
     try:
@@ -37,7 +35,7 @@ def login(request):
             try:
                 profile = Profile.objects.get(facebook_id = user_data['id'])
             except Exception:
-                user = User.objects.create_user(user_data['username'],user_data['email'],user_data['id']+user_data['email'])
+                user = User.objects.create_user(user_data['username'],user_data['email'],'sreejithhere')
                 
                 user.first_name = user_data['first_name']
                 user.last_name = user_data['last_name']
@@ -46,19 +44,20 @@ def login(request):
                                   facebook_id = user_data['id'])
                 profile.save()
                 user_login = authenticate(username = user.username,
-                                          password = user.password)
-                auth_login(request, profile.user_login)
+                                          password = 'sreejithhere')
+                auth_login(request, user_login)
                 #return redirect('game')
                 return redirect('index')
             else:
                 if profile.user.is_active:
                     user_login = authenticate(username = profile.user.username,
-                                              password = profile.user.password)
+                                              password = 'sreejithhere')
                     auth_login(request, user_login)
                     #return redirect('game')
                     return redirect('index')
                 else:
                     return redirect('index_m', message = 'Your account has been deactivated.')
     except Exception as e:
-        return HttpResponse(str(e))
+        #return HttpResponse(str(e))
+	return redirect('index')
     return redirect('index')
