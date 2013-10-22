@@ -1,26 +1,27 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import authenticate,login as auth_login
 from django.http import HttpResponse
 from game.models import Profile
 from urllib2 import Request,urlopen
 import json
 
-def index(request, message = ''):
+def index(request,message = ''):
     if request.user.is_authenticated():
-        return redirect('game')
-    return render(request,'index.html',{message:message})
+        message = 'You have been successfully registered.'
+        #return redirect('game')
+    return render(request,'index.html',{'message':message})
 
 def login(request):
     if request.user.is_authenticated():
-        return redirect('game')
+        return redirect('index')
     
     # The workflow is: we get the `code` from the get request.
     # We then proceed to exchange it for an `access token` from facebook.
     # We then obtain user info using the `access token` and proceed to
     # either log him in or sign him up.
     
-    redirect_uri = 'http://localhost:8000/login/'
+    redirect_uri = 'http://kgts.in:8000/login/'
     
     fb_code = request.GET.get('code')
     try:
@@ -29,26 +30,35 @@ def login(request):
             token_response = r.read()
 	    token_response = token_response.split('&')[0]
             user_data = json.load(urlopen(Request('https://graph.facebook.com/me?scope=email&%s'%token_response)))
+            
             if 'error' in user_data:
                 raise Exception("Error in retrieving data")
+            
             try:
                 profile = Profile.objects.get(facebook_id = user_data['id'])
             except Exception:
                 user = User.objects.create_user(user_data['username'],user_data['email'],user_data['id']+user_data['email'])
+                
                 user.first_name = user_data['first_name']
                 user.last_name = user_data['last_name']
                 user.save()
                 profile = Profile(user = user,
                                   facebook_id = user_data['id'])
                 profile.save()
-                login(request, profile.user)
-                return redirect('game')
+                user_login = authenticate(username = user.username,
+                                          password = user.password)
+                auth_login(request, profile.user_login)
+                #return redirect('game')
+                return redirect('index')
             else:
                 if profile.user.is_active:
-                    login(request, profile.user)
-                    return redirect('game')
+                    user_login = authenticate(username = profile.user.username,
+                                              password = profile.user.password)
+                    auth_login(request, user_login)
+                    #return redirect('game')
+                    return redirect('index')
                 else:
-                    return redirect('index',{'message':'Your account has been deactivated.'})
+                    return redirect('index_m', message = 'Your account has been deactivated.')
     except Exception as e:
         return HttpResponse(str(e))
     return redirect('index')

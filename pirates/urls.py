@@ -7,6 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'core.views.index', name='index'),
+    url(r'^m/(?P<message>.*)$', 'core.views.index', name='index_m'),
     url(r'^login', 'core.views.login', name='login'),
     url(r'^game', 'game.views.game', name='game'),
     # url(r'^pirates/', include('pirates.foo.urls')),

@@ -2,9 +2,9 @@
 {% load static %}
 <html>
 <head>
-<script>static="{% static %}";</script>
+<script>static="{% get_static_prefix %}";</script>
 <title>Brethren of the coast</title>
-<link rel="stylesheet" href="{{static_url}}{% less "css/less/global.less" %}" />
+<link rel="stylesheet" href="{% get_static_prefix %}{% less "css/less/global.less" %}" />
 <script src="{% static "js/require.js" %}" data-main="{% static "js/main.js" %}" ></script>
 </head>
 <body>

@@ -2,10 +2,70 @@
 {% load static %}
 <html>
 <head>
-<title>Brethren of the coast</title>
+<title>Brethren Of The Coast</title>
+<link href='http://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css' />
+<style type='text/css'>
+*{
+font-family:'Pirata One', cursive;
+}
+span.notifications{
+position: absolute;
+top: 0;
+left: 40%;
+text-align: center;
+width: 20%;
+box-shadow: 0px 2px 2px #888;
+background: #fff1a8;
+}
+body{
+background-color:black;
+background-image:url({% static "images/login_background.jpg" %});
+background-size:100% 100%;
+background-repeat:no-repeat;
+text-align:center;
+margin:0;
+padding:0;
+padding-top:10px;
+}
+a.fb_link{
+text-decoration:none;
+color:#3b5998;
+display:block;
+text-align:center;
+}
+div.login_scroll{
+margin:auto;
+width:60%;
+background:url({% static "images/rules_scroll.png" %});
+background-size:100% 100%;
+background-repeat:no-repeat;
+height:auto;
+margin-top:-3%;
+padding:6%;
+box-sizing:border-box;
+padding-top:8%;
+padding-bottom:10%;
+font-size:30px;
+text-align:left;
+}
+div.login_scroll > p{
+text-indent:50px;
+}
+</style>
 </head>
 <body>
-{{message}}
-<a href='https://www.facebook.com/dialog/oauth?scope=email&client_id=414682281965382&redirect_uri=http://ppsreejith.ktj.in:8000/login/'>Login with fb</a>
+<img class="login_logo" src="{% static "images/botc_small.png" %}" /><br/>
+<span class='notifications'>{{message}}</span>
+<div class='login_scroll'>
+<p>Ahoy!! Welcome to 'Brethren of the Coast', an online game of strategy by The KGPian Game Theory Society. Step into the shoes of legendary buccaneers from the Golden Age of Piracy. Outplay, outsmart and ridicule your opponents in the quest to become master of the seas and take away lucrative cash prizes!</p>
+<p>Modelled using game theory and social psychology, ‘Brethren of the Coast’ is an experience you do not want to miss.
+Sessions start from 25th October (Friday night) 9pm onwards and will go on till 30th October. There shall be 2 sessions per day:</p>
+<ul><li>Morning session: 8am to 6pm.</li>
+<li>Evening session: 9pm to 1 am.</li></ul>
+An average session will take only 15 minutes of your time and leave you with a pirate experience that will make you come back for more!
+<br/>
+<br/>
+<a class = 'fb_link' href='https://www.facebook.com/dialog/oauth?scope=email&client_id=414682281965382&redirect_uri=http://kgts.in:8000/login/'>Login with facebook</a>
+</div>
 </body>
 </html>

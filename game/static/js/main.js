@@ -19,6 +19,6 @@ requirejs.config({
 require([
     'jquery', 'lodash','backbone'
 ],
-function($, _){
+function($, _, Backbone){
     return {};
 });
