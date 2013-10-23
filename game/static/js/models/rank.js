@@ -1,20 +1,18 @@
-define(['lodash', 'backbone'], function(_,Backbone){
+define(['backbone'], function(Backbone){
 
 var Rank = Backbone.Model.extend({
-    initialize: function(rank, username, score){
-       this.rank = rank;
-       this.username = username;
-       this.score = score;
-    },
-
-    validate:function(){
-	
+    defaults: {
+	"rank":0,
+	"username":"",
+	"score":0
     },
 });
 
 var RankList = Backbone.Collection.extend({
     model:Rank,
     url:'/game/leaderboard',
-})
+});
+
+return RankList;
 
 });

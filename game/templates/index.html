@@ -10,9 +10,10 @@ font-family:'Pirata One', cursive;
 }
 span.notifications{
 position: absolute;
-top: 0;
-left: 40%;
-text-align: center;
+top: 0%;
+right: 2%;
+padding:1%;
+text-align: justify;
 width: 20%;
 box-shadow: 0px 2px 2px #888;
 background: #fff1a8;
@@ -40,20 +41,26 @@ background:url({% static "images/rules_scroll.png" %});
 background-size:100% 100%;
 background-repeat:no-repeat;
 height:auto;
-margin-top:-3%;
-padding:6%;
+margin-top:-10%;
+padding:10%;
 box-sizing:border-box;
-padding-top:8%;
-padding-bottom:10%;
-font-size:30px;
-text-align:left;
+padding-top:20%;
+padding-bottom:14%;
+font-size:20px;
+text-align:justify;
 }
 div.login_scroll > p{
 text-indent:50px;
 }
+img.login_logo{
+position: absolute;
+width: 30%;
+left: 35%;
+}
 </style>
 </head>
 <body>
+<iframe style='position:absolute;right:1%;top:30%;' src="http://www.facebook.com/plugins/facepile.php?app_id=414682281965382&href=http%3A%2F%2Fbrethren.kgts.in%3A9000&action=Playing&width=80&height=30&max_rows=1&colorscheme=dark&size=large&show_count=true&appId=414682281965382"></iframe>
 <img class="login_logo" src="{% static "images/botc_small.png" %}" /><br/>
 <span class='notifications'>{{message}}</span>
 <div class='login_scroll'>
@@ -65,7 +72,7 @@ Sessions start from 25th October (Friday night) 9pm onwards and will go on till 
 An average session will take only 15 minutes of your time and leave you with a pirate experience that will make you come back for more!
 <br/>
 <br/>
-<a class = 'fb_link' href='https://www.facebook.com/dialog/oauth?scope=email&client_id=414682281965382&redirect_uri=http://brethren.kgts.in:9000/login/'>Login with facebook</a>
+<a class = 'fb_link' href='https://www.facebook.com/dialog/oauth?scope=email&client_id=414682281965382&redirect_uri=http://brethren.kgts.in:9000/login/'>Sign Up with facebook</a>
 </div>
 </body>
 </html>

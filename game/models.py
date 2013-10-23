@@ -99,3 +99,15 @@ class RoundAllotment(models.Model):
             players_dict[i] = getattr(allotment,'pos%d'%i)
         
         return players_dict
+        
+    @classmethod
+    def getAllPlayers(cls, session, player):
+        count = float(Profile.objects.count())
+        alottments = list(cls.objects.filter({'session' : session }))
+        players_array = []
+        for alott in alottments:
+            for i in range(1,6):
+                players_array.append({'position':i,
+                                      'userPos':'',
+                                      'stars':getattr(alott,'pos%d'%i).rank/count})
+        return players_array
