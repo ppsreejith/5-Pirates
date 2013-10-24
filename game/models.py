@@ -25,6 +25,8 @@ class Round(models.Model):
     times = models.PositiveIntegerField(default = 0) #No: of times entries have been edited.
     session = models.PositiveIntegerField() #Current Session Number
 
+    
+
     def __unicode__(self):
         return self.session
     
@@ -82,6 +84,15 @@ class RoundAllotment(models.Model):
     pos4 = models.ForeignKey(Profile, related_name = 'roundallottment_pos4')
     pos5 = models.ForeignKey(Profile, related_name = 'roundallottment_pos5')
     session = models.PositiveIntegerField()
+
+    group_id = models.PositiveIntegerField()
+    game_id = models.PositiveIntegerField()
+
+    sco1 = models.PositiveIntegerField(default=0)
+    sco2 = models.PositiveIntegerField(default=0)
+    sco3 = models.PositiveIntegerField(default=0)
+    sco4 = models.PositiveIntegerField(default=0)
+    sco5 = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
         return self.pos1.user.username
