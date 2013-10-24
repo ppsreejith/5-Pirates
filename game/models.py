@@ -102,12 +102,22 @@ class RoundAllotment(models.Model):
         
     @classmethod
     def getAllPlayers(cls, session, player):
-        count = float(Profile.objects.count())
-        alottments = list(cls.objects.filter({'session' : session }))
-        players_array = []
-        for alott in alottments:
-            for i in range(1,6):
-                players_array.append({'position':i,
-                                      'userPos':'',
-                                      'stars':getattr(alott,'pos%d'%i).rank/count})
-        return players_array
+        player_count = cls.objects.count()
+        players = []
+        alottment = cls.objects.filter( Q(pos1 = player) |
+                                        Q(pos2 = player) |
+                                        Q(pos3 = player) |
+                                        Q(pos4 = player) |
+                                        Q(pos5 = player),
+                                        session = session )
+        for i in range(1,6):
+            alott = alottment.get({ 'pos%d'%i : player })
+            pos1 = getattr( alott,'pos%d'%(i%5+1) )
+            pos2 = getattr( alott,'pos%d'%((i+1)%5+1) )
+            pos3 = getattr( alott,'pos%d'%((i+2)%5+1) )
+            pos4 = getattr( alott,'pos%d'%((i+3)%5+1) )
+            players.extend([{'position':i%5+1,'userPos':i,'stars':pos1.rank},
+                            {'position':(i+1)%5+1,'userPos':i,'stars':pos2.rank},
+                            {'position':(i+2)%5+1,'userPos':i,'stars':pos3.rank},
+                            {'position':(i+3)%5+1,'userPos':i,'stars':pos4.rank}])
+        return players

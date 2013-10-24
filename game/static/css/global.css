@@ -1,0 +1,112 @@
+body,html,head{
+margin:0;
+padding:0;
+}
+body{
+height:100%;
+box-sizing:border-box;
+overflow:hidden;
+}
+*{
+font-family:'Pirata One',cursive;
+}
+a{
+text-decoration:none;
+color:white;
+}
+iframe{
+border:0;
+}
+div.topBar{
+box-shadow:0px 4px 10px 4px #000;
+z-index:999;
+position:relative;
+box-sizing:border-box;
+height:6%;
+background-image:url(/static/images/Wood.png);
+background-size:cover;
+}
+div.topBar > img.topMenu{
+height:70%;
+position:relative;
+top:15%;
+left:3px;
+cursor:pointer;
+}
+div.topBar > img.topLogo{
+height:90%;
+position:absolute;
+width:30%;
+left:35%;
+top:5%;
+}
+div.menuDropDown{
+display:inline-block;
+position:absolute;
+left:0;
+top:6%;
+width:15%;
+-webkit-transition:top 0.3s;
+-moz-transition:top 0.3s;
+-o-transition:top 0.3s;
+transition:top 0.3s;
+z-index:998;
+}
+div.menuDropDown.ascend{
+top:-200px;
+}
+div.menuDropDown > *{
+width:100%;
+}
+div.menuDropDown > a.dropDownOption{
+display:inline-block;
+text-align:center;
+padding:5px 0px;
+font-size:30px;
+background-image:url('/static/images/Plank.png');
+height:40px;
+box-sizing:border-box;
+color:white;
+background-size:100% 100%;
+}
+iframe.fblike{
+float:right;
+max-height:100%;
+max-width:100px;
+margin-top:1%;
+}
+div.mainBar{
+width:100%;
+height:94%;
+background:white;
+position:relative;
+}
+div.mainBar>div.mainOption{
+position:absolute;
+width:100%;
+height:100%;
+background-size:cover;
+}
+div.mainOptionHome{
+background-image:url(/static/images/Dck.png);
+}
+div.homeTable{
+position:absolute;
+bottom:0;
+right:0;
+background-image:url(/static/images/Table.png);
+background-size:100% 100%;
+width:70%;
+height:40%;
+z-index:997;
+}
+div.homeMiniMap{
+position:absolute;
+bottom:0;
+left:0;
+display:inline-block;
+height:32%;
+width:20%;
+background-color:black;
+z-index:996;
+}

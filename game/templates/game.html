@@ -2,12 +2,38 @@
 {% load static %}
 <html>
 <head>
-<script>static="{% get_static_prefix %}";</script>
-<title>Brethren of the coast</title>
-<link rel="stylesheet" href="{% static "css/global.css" %}" />
-<script src="{% static "js/require.js" %}" data-main="{% static "js/main.js" %}" ></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="keywords" content="pirates,game,online game,iit kgp,iit kharagpur,kgts,kharagpur game theory society" />
+  <script>static="{% get_static_prefix %}";</script>
+  <link href='http://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css'>
+  <title>Brethren of the coast</title>
+  <link rel="stylesheet" href="{% static "css/global.css" %}" />
+  <script src="{% static "js/require.js" %}" data-main="{% static "js/main.js" %}" ></script>
 </head>
 <body>
-
+  <div class='topBar'>
+    <img src="{% static "images/Menu.png" %}" class="topMenu" />
+    <img src="{% static "images/BOTC1.png" %}" class="topLogo" />
+    <iframe class='fblike' src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FThe.KGTS&width=100&height=21&colorscheme=light&layout=button_count&action=like&show_faces=true&send=false&appId=414682281965382"></iframe>
+  </div>
+  <div class="menuDropDown ascend">
+    <img src="{% static "images/dropDown.png"%}"/>
+    <a class='dropDownOption' href="#home">Home</a>
+    <a class='dropDownOption' href="#about">About</a>
+    <a class='dropDownOption' href="#dashboard">Dashboard</a>
+    <a class='dropDownOption' href="#rules">Rules</a>
+    <img src="{% static "images/dropDown.png"%}"/>
+  </div>
+  <div class="mainBar">
+    <div class='mainOption mainOptionHome'>
+      <div class='homeTable'></div>
+      <div class='homeMiniMap'>
+	
+      </div>
+    </div>
+    <div class='mainOption mainOptionAbout'></div>
+    <div class='mainOption mainOptionDashboard'></div>
+    <div class='mainOption mainOptionRules'></div>
+  </div>
 </body>
 </html>
