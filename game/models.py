@@ -2,12 +2,16 @@ from django.conf import settings
 from core.models import GlobalSettings
 from django.db import models
 
+
 class Profile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
     facebook_id = models.CharField(max_length=20)
     total_points = models.PositiveIntegerField(default=0)
     sessions_without_playing = models.PositiveIntegerField(default=0)
     rank = models.PositiveIntegerField(default = lambda:Profile.objects.count())
+
+    def __unicode__(self):
+        return self.user.username
 
 # Each round, `player_one` in position `position_one` pays/demands
 # `amount` money to/from `player_two` in position `position_two`
@@ -20,6 +24,9 @@ class Round(models.Model):
     amount = models.PositiveIntegerField()
     times = models.PositiveIntegerField(default = 0) #No: of times entries have been edited.
     session = models.PositiveIntegerField() #Current Session Number
+
+    def __unicode__(self):
+        return self.session
     
     class Meta:
         unique_together = (('player_one','player_two','session'))
@@ -29,6 +36,9 @@ class Round(models.Model):
             raise ValidationError("Two different players needed.")
         if self.position_one == self.position_two:
             raise ValidationError("Two different positions needed.")
+
+
+    
     
     @classmethod
     def create_or_update(cls,amount,vals):
@@ -62,7 +72,8 @@ class Round(models.Model):
                                    player_one : player,
                                    player_two : players_dict[pos],
                                    session : session })
-        
+
+            
 
 class RoundAllotment(models.Model):
     pos1 = models.ForeignKey(Profile, related_name = 'roundallottment_pos1')
@@ -71,6 +82,9 @@ class RoundAllotment(models.Model):
     pos4 = models.ForeignKey(Profile, related_name = 'roundallottment_pos4')
     pos5 = models.ForeignKey(Profile, related_name = 'roundallottment_pos5')
     session = models.PositiveIntegerField()
+
+    def __unicode__(self):
+        return self.pos1.user.username
     
     class Meta:
         unique_together = (('pos1','pos2','pos3','pos4','pos5','session'))
