@@ -1,0 +1,14 @@
+To create a new allocation:
+Sort by rank from Profile
+Divide into 21 groups with slo
+Create sets of 21 taking one
+ from each group
+Add each game to round allotment
+
+To play game with data:
+For each game in alloc, get data from
+ Round.
+Figure out result of game, new points
+ of each player. Update in Profile.
+
+
