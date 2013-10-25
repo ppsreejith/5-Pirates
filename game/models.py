@@ -26,22 +26,11 @@ class Round(models.Model):
     session = models.PositiveIntegerField() #Current Session Number
 
     
-
-   # def __unicode__(self):
-    #    return self.session
-    
-    #class Meta:
-     #   unique_together = (('player_one','player_two','session'))
-    
-    def clean(self):
-        if self.player_one == self.player_two:
-            raise ValidationError("Two different players needed.")
-        if self.position_one == self.position_two:
-            raise ValidationError("Two different positions needed.")
+    class Meta:
+        unique_together = (('player_one','position_one','session'))
 
 
-    
-    
+        
     @classmethod
     def create_or_update(cls,amount,vals):
         try:
@@ -59,21 +48,42 @@ class Round(models.Model):
     # of amounts, to the other players, are passed along.
     @classmethod
     def newRounds(cls,session,position,player,amounts):
+        if position < 1 or position > 5:
+            raise ValidationError("Position should be in (1,2,3,4,5)")
         if any( n<0 for n in amounts ):
             raise ValidationError("Amount can't be less than zero")
-        if reduce(lambda x,y: x+y, amounts ) > 100:
+        sum = reduce(lambda x,y: x+y, amounts[posiiton-1:])
+        if sum > 100:
             raise ValidationError("You can't give away more than 100 Coins ")
-        if len(amounts) != 4:
-            raise ValidationError("Exactly 4 amounts have to be specified")
-        players_dict = RoundAllotment.getOtherPlayers(session,position,player)
-        
-        for pos, amount in zip( players_dict, amounts ):
+        if len(amounts) != 5:
+            raise ValidationError("Exactly 5 amounts have to be specified")
+        #players_dict = RoundAllotment.getOtherPlayers(session,position,player)
+        positions = range(1,6)
+        for amount,pos in zip(amounts,positions):
             cls.create_or_update(amount,
                                  { position_one : position,
                                    position_two : pos,
                                    player_one : player,
-                                   player_two : players_dict[pos],
                                    session : session })
+
+
+    @classmethod
+    def getHisAlloc(cls, session, player): #Get a dictionary showign a players allocation to all his opponents in a round
+        alloc = cls.objects.filter(player_one=player, session=session)
+        ret_alloc = []
+        try:
+            for i in range(1, 6):
+                for j in range(1, 6):
+                    ret_alloc.append({'userPos':i, 'position':j, 'amount':alloc.get(position_one=i, position_two=j)})
+        except Exception:
+            return []
+        else:
+            return ret_alloc
+        
+        
+                            
+                    
+        
 
             
 
