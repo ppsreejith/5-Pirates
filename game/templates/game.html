@@ -2,6 +2,49 @@
 {% load static %}
 <html>
 <head>
+  <script type="text/html" id="pirateTemplate">
+    <div class="pirate1">
+      <img class="stars" src="<%= stars %>"/>
+      <img class="pirate" src="/static/images/p<%= userPos %><%= position >%.png"/>
+    </div>	
+  </script>
+  <script type="text/html" id="tableTemplate">
+    <div class="p1Coins">
+      <%= p1 %><span class="money">&#9921;</span>
+    </div>
+    <div class="p2Coins">
+      <%= p2 %><span class="money">&#9921;</span>
+    </div>
+    <div class="p3Coins">
+      <%= p3 %><span class="money">&#9921;</span>
+    </div>
+    <div class="p4Coins">
+      <%= p4 %><span class="money">&#9921;</span>
+    </div>
+    <div class="yourCoins">
+      Your Coins: <%= coins %><span class="money">&#9921;</span>
+    </div>
+    <img class="scroll" src="{% static "images/rules_scroll.png" %}" onclick="exitScroll();"/>
+    <form class="scrollInput rolled">
+      <span class="closeButton" title="Exit" onclick="exitScroll();">X</span>
+      <br/>
+      <%= s1 %>
+      Player <%= pl1 %>: <input name="val<%= pl1 %>" type="text" value="<%= p1 %>" placeholder="00" />
+      <span class="money">&#9921;</span><br/>
+      <%= s2 %>
+      Player <%= pl2 %>: <input name="val<%= pl2 %>" type="text" value="<%= p2 %>" placeholder="00" />
+      <span class="money">&#9921;</span><br/>
+      <%= s3 %>
+      Player <%= pl3 %>: <input name="val<%= pl3 %>" type="text" value="<%= p3 %>" placeholder="00" />
+      <span class="money">&#9921;</span><br/>
+      <%= s4 %>
+      Player <%= pl4 %>: <input name="val<%= pl4 %>" type="text" value="<%= p4 %>" placeholder="00" />
+      <span class="money">&#9921;</span><br/><br/>
+      <span style="display:none;"><input name="pos" type="text" value="<%= pl5 %>" placeholder="00" /></span>
+      <span class="labelText scrollError"></span>
+      <span class="scrollSubmit" onclick="scrollSubmit();">Submit</span>
+    </form>
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="keywords" content="pirates,game,online game,iit kgp,iit kharagpur,kgts,kharagpur game theory society" />
   <script>static="{% get_static_prefix %}";</script>
@@ -26,7 +69,14 @@
   </div>
   <div class="mainBar">
     <div class="mainOption mainOptionHome"%>
-      <div class="homeTable"></div>
+      <div class="treasure"></div>
+      <img class="flag" />
+      <div class="pirates">
+      </div>
+      <div class="homeTable">
+	
+      </div>
+      <div class="homeMiniMapLabel">Your Position</div>
       <div class="homeMiniMap">
 	<div class="miniMapTable"></div>
 	<div class="miniMapBox1 miniMapBox">1</div>

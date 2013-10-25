@@ -26,11 +26,58 @@ function($, _, Backbone){
 });
 
 //Event Loaders, Dom Interaction
-require(['jquery','domReady'],function($,domReady){
+require(['jquery','domReady','backbone','views/pirates','views/table'],function($,domReady,Backbone,Pirates,Tables){
+
     domReady(function(){
+	//Event related stuff
+	globalEvent = {}
+	globalEvent = _.extend({}, Backbone.Events);
+	
+	$("div.homeMiniMap > div.miniMapBox").on("click",function(e){
+	    var no = parseInt(e.target.innerHTML);
+	    if (""+no == document.querySelector("div.miniMapBox5").innerHTML){
+		return;
+	    }
+	    globalEvent.trigger("change:position",{position:no});
+	    var arr = [1,2,3,4,5];
+	    arr.splice(arr.indexOf(no),1);
+	    arr.push(no);
+	    $("div.homeMiniMap > div.miniMapBox").each(function(index,el){
+		el.innerHTML = arr[index];
+	    });
+	});
+	
+	//scroll form submit
+	window.exitScroll = function(){
+	    $("div.homeTable form.scrollInput").toggleClass("rolled");
+	}
+	
+	window.scrollSubmit = function(){
+	    var form = $("div.homeTable form.scrollInput");
+	    var formvals = form.find("input"),sum=0;
+	    for (fc=0;fc++;fc<4){
+		sum+=parseInt(formvals[fc].val());
+	    }
+	    if (sum > 100){
+		form.find("span.labelText.scrollError")[0].innerHTML= "You cant give away more than 100";
+		return;
+	    }
+	    form.find("span.scrollSubmit").innerHTML="Please Wait";
+	    $.ajax({type:"post",url:"/game/setalloc",data:form.serialize(),success:function(){
+		globalEvent.trigger("scroll:submit");
+	    },error:function(){
+		form.find("span.scrollSubmit").innerHTML="Submit";
+		form.find("span.labelText.scrollError").innerHTML="Please check your values";
+	    }});
+	}
+	
+	//Main menu
 	$('div.menuDropDown > a,img.topMenu').click(function(){
 	    $('div.menuDropDown').toggleClass('ascend');
 	});
+	
+	//Initializing stuff
+	
     });
     return {};
 });
