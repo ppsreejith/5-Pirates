@@ -27,9 +27,9 @@ var TableView = Backbone.View.extend({
 	var obj = {};
 	var accepting = "<span class=\"labelText\">Accept from:</span><br/>"
 	var distributing = "<span class=\"labelText\">Distributing to:</span><br/>"
-	if(table.position == 1)
+	if(this.position == 1)
 	    accepting = "";
-	if(table.position == 5)
+	if(this.position == 5)
 	    distributing = "";
 	var i = 1;
 	for(table in currentTables){

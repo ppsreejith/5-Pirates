@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
-from game.models import RoundAllotment
+from django.http import HttpResponse
+from game.models import RoundAllotment, Profile, Strategy
 from core.models import GlobalSettings
+from django.contrib.auth import authenticate,login as auth_login
 from django.utils import simplejson
+from django.contrib.auth.models import User
 
 def json_response(something):
     return HttpResponse(
@@ -12,18 +14,21 @@ def json_response(something):
 
 def game(request):
     if not request.user.is_authenticated():
-        return redirect('index')
+        user_login = authenticate(username = 'testuser3',
+                                  password = 'sreejithhere')
+        auth_login(request, user_login)
+        #return redirect('index')
     return render(request,'game.html',{})
 
 def stars(request):
-    session = GlobalSettings.get().current_session
-    player = Profile.objects.get(user__username=request.user)
+    session = GlobalSettings.objects.get().current_session
+    player = Profile.objects.get(user__username=request.user.username)
     star_dict = RoundAllotment.getAllPlayerStars(session, player)
     return json_response(star_dict)
 
 def get_allocation(request):
-    session = GlobalSettings.get().current_session
-    player = Profile.objects.get(user__username=request.user)
+    session = GlobalSettings.objects.get().current_session
+    player = Profile.objects.get(user__username=request.user.username)
     alloc_dict = Strategy.getHisAlloc(session, player)
     return json_response(alloc_dict)
 

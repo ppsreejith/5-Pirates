@@ -70,13 +70,17 @@ class Strategy(models.Model):
 
 #to be changed
     @classmethod
-    def getHisAlloc(cls, session, player): #Get a dictionary showign a players allocation to all his opponents in a round
+    def getHisAlloc(cls, session, player): #Get a dictionary showing a players allocation to all his opponents in a round
         strategies = cls.objects.filter(player=player, session=session)
         ret_alloc = []
         try:
             for i in range(1, 6):
                 for j in range(1, 6):
-                    ret_alloc.append({'userPos':i, 'position':j, 'amount':getattr(strategies.get(position=i), 'amount%d'%j)})
+                    try:
+                        amount = getattr(strategies.get(position=i), 'amount%d'%j)
+                    except Exception:
+                        amount = 0
+                    ret_alloc.append({'userPos':i, 'position':j, 'amount':amount})
         except Exception:
             return []
         else:

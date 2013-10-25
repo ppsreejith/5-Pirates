@@ -77,7 +77,8 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	});
 	
 	//Initializing stuff
-	
+	var pirateView = new Pirates();
+	var tableView = new Tables();
     });
     return {};
 });
