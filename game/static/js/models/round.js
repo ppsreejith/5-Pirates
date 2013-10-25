@@ -12,6 +12,19 @@ var Flags = Backbone.Collection.extend({
     url:'/game/flags'
 });
 
+var Table = Backbone.Model.extend({
+    defaults:{
+	position:0,
+	userPos:0,
+	amount:0,
+    },
+});
+
+var Tables = Backbone.Collection.extend({
+    model:Table,
+    url:'/game/tables',
+});
+
 var Pirate = Backbone.Model.extend({
     defaults:{
 	position:0,
@@ -40,6 +53,7 @@ return {
     Flags:Flags,
     Pirates:Pirates,
     Rounds:Rounds,
+    Tables:Tables,
 };
 
 });
