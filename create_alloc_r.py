@@ -13,7 +13,7 @@ def create_alloc(sess):
     for i in range(k):
         curr_list = []
         curr = i
-        print "Allotment for i=" + str(i)
+        print "Allotment for group_id=" + str(i)
         for j in range(21):
             curr_list.append(players[curr])
             curr += k
@@ -27,8 +27,8 @@ def create_alloc(sess):
             n3 = get_cycle(n2 + 3)
             n4 = get_cycle(n3 + 10)
             n5 = get_cycle(n4 + 2)
-            print("paired " + str(n1) + ' ' + str(n2) + ' ' + str(n3) + ' ' + str(n4) + ' ' + str(n5))
-            rnd = RoundAllotment(pos1=curr_list[n1], pos2=curr_list[n2], pos3=curr_list[n3], pos4=curr_list[n4], pos5=curr_list[n5], session=sess)
+            print("game_id=" + str(j) + " " + str(n1) + ' ' + str(n2) + ' ' + str(n3) + ' ' + str(n4) + ' ' + str(n5))
+            rnd = RoundAllotment(pos1=curr_list[n1], pos2=curr_list[n2], pos3=curr_list[n3], pos4=curr_list[n4], pos5=curr_list[n5], session=sess, group_id=i, game_id=j)
             rnd.save()
 
 

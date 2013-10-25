@@ -20,18 +20,18 @@ class Round(models.Model):
     position_one = models.PositiveIntegerField()
     position_two = models.PositiveIntegerField()
     player_one = models.ForeignKey(Profile,related_name='round_player_one')
-    player_two = models.ForeignKey(Profile,related_name='round_player_two')
+    #player_two = models.ForeignKey(Profile,related_name='round_player_two', default=NULL)
     amount = models.PositiveIntegerField()
     times = models.PositiveIntegerField(default = 0) #No: of times entries have been edited.
     session = models.PositiveIntegerField() #Current Session Number
 
     
 
-    def __unicode__(self):
-        return self.session
+   # def __unicode__(self):
+    #    return self.session
     
-    class Meta:
-        unique_together = (('player_one','player_two','session'))
+    #class Meta:
+     #   unique_together = (('player_one','player_two','session'))
     
     def clean(self):
         if self.player_one == self.player_two:
