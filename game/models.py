@@ -16,65 +16,67 @@ class Profile(models.Model):
 # Each round, `player_one` in position `position_one` pays/demands
 # `amount` money to/from `player_two` in position `position_two`
 
-class Round(models.Model):
-    position_one = models.PositiveIntegerField()
-    position_two = models.PositiveIntegerField()
-    player_one = models.ForeignKey(Profile,related_name='round_player_one')
+class Strategy(models.Model):
+    position = models.PositiveIntegerField()
+    player = models.ForeignKey(Profile,related_name='round_player_one')
     #player_two = models.ForeignKey(Profile,related_name='round_player_two', default=NULL)
-    amount = models.PositiveIntegerField()
+    amount1 = models.PositiveIntegerField()
+    amount2 = models.PositiveIntegerField()
+    amount3 = models.PositiveIntegerField()
+    amount4 = models.PositiveIntegerField()
+    amount5 = models.PositiveIntegerField()
+    
     times = models.PositiveIntegerField(default = 0) #No: of times entries have been edited.
     session = models.PositiveIntegerField() #Current Session Number
 
     
     class Meta:
-        unique_together = (('player_one','position_one','session'))
+        unique_together = (('player','position','session'))
 
 
         
     @classmethod
-    def create_or_update(cls,amount,vals):
+    def create_or_update(cls, playr, posn, sess, amts):
         try:
-            round = cls.objects.get(**vals)
+            strat = cls.objects.get(player=playr, position=posn, session=sess)
         except Exception:
-            round = cls(**vals)
-            round.amount = amount
+            strat = cls(player=playr, position=posn, session=sess, amount1=amts[0], amount2=amts[1], amount3=amts[2], amount4=amts[3], amount5=amts[4])
         else:
-            round.amount = amount
-            round.times += 1
+            strat.amount1 = amts[0]
+            strat.amount2 = amts[1]
+            strat.amount3 = amts[2]
+            strat.amount4 = amts[3]
+            strat.amount5 = amts[4]
+            strat.times += 1
         finally:
-            round.save()
+            strat.save()
     
     # To create a new round, player_one is passed and then an array
     # of amounts, to the other players, are passed along.
     @classmethod
-    def newRounds(cls,session,position,player,amounts):
+    def newStrategy(cls,session,position,player,amounts):
         if position < 1 or position > 5:
             raise ValidationError("Position should be in (1,2,3,4,5)")
         if any( n<0 for n in amounts ):
             raise ValidationError("Amount can't be less than zero")
-        sum = reduce(lambda x,y: x+y, amounts[posiiton-1:])
+        sum = reduce(lambda x,y: x+y, amounts[position-1:])
         if sum > 100:
             raise ValidationError("You can't give away more than 100 Coins ")
         if len(amounts) != 5:
             raise ValidationError("Exactly 5 amounts have to be specified")
         #players_dict = RoundAllotment.getOtherPlayers(session,position,player)
-        positions = range(1,6)
-        for amount,pos in zip(amounts,positions):
-            cls.create_or_update(amount,
-                                 { position_one : position,
-                                   position_two : pos,
-                                   player_one : player,
-                                   session : session })
+        cls.create_or_update(player, position, session, amounts)
+        
 
-
+#to be changed
     @classmethod
     def getHisAlloc(cls, session, player): #Get a dictionary showign a players allocation to all his opponents in a round
-        alloc = cls.objects.filter(player_one=player, session=session)
+        strategies = cls.objects.filter(player=player, session=session)
         ret_alloc = []
         try:
             for i in range(1, 6):
                 for j in range(1, 6):
-                    ret_alloc.append({'userPos':i, 'position':j, 'amount':alloc.get(position_one=i, position_two=j)})
+                    ret_alloc.append({'userPos':i, 'position':j, 'amount':getattr(strategies.get(position=i), 'amount%d'%j)})
         except Exception:
             return []
         else:
@@ -136,9 +138,10 @@ class RoundAllotment(models.Model):
         return players_dict
         
     @classmethod
-    def getAllPlayers(cls, session, player):
-        player_count = cls.objects.count()
+    def getAllPlayerStars(cls, session, player):
+        player_count = Profile.objects.count()
         players = []
+        Q = models.Q
         alottment = cls.objects.filter( Q(pos1 = player) |
                                         Q(pos2 = player) |
                                         Q(pos3 = player) |
@@ -146,13 +149,22 @@ class RoundAllotment(models.Model):
                                         Q(pos5 = player),
                                         session = session )
         for i in range(1,6):
-            alott = alottment.get({ 'pos%d'%i : player })
+            alott = alottment.get(**{ 'pos%d'%i : player })
             pos1 = getattr( alott,'pos%d'%(i%5+1) )
             pos2 = getattr( alott,'pos%d'%((i+1)%5+1) )
             pos3 = getattr( alott,'pos%d'%((i+2)%5+1) )
             pos4 = getattr( alott,'pos%d'%((i+3)%5+1) )
-            players.extend([{'position':i%5+1,'userPos':i,'stars':pos1.rank},
-                            {'position':(i+1)%5+1,'userPos':i,'stars':pos2.rank},
-                            {'position':(i+2)%5+1,'userPos':i,'stars':pos3.rank},
-                            {'position':(i+3)%5+1,'userPos':i,'stars':pos4.rank}])
+            players.extend([{'position':i%5+1,'userPos':i,'stars':cls.starrify(pos1.rank)},
+                            {'position':(i+1)%5+1,'userPos':i,'stars':cls.starrify(pos2.rank)},
+                            {'position':(i+2)%5+1,'userPos':i,'stars':cls.starrify(pos3.rank)},
+                            {'position':(i+3)%5+1,'userPos':i,'stars':cls.starrify(pos4.rank)}])
         return players
+
+
+    @classmethod
+    def starrify(cls, rank):
+        player_count = Profile.objects.count()
+        num = (rank - 1) * 3
+        ret = num / player_count
+        ret = 3 - ret
+        return ret

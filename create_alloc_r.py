@@ -1,4 +1,4 @@
-from game.models import Profile, Round, RoundAllotment
+from game.models import Profile, RoundAllotment
 
 def get_cycle(no):
     if(no > 20):
@@ -32,4 +32,4 @@ def create_alloc(sess):
             rnd.save()
 
 
-create_alloc(1)
+print 'loaded'
