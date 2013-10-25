@@ -18,7 +18,8 @@ def game(request):
                                   password = 'sreejithhere')
         #auth_login(request, user_login)
         return redirect('index')
-    return render(request,'game.html',{})
+    return redirect('index')
+    #return render(request,'game.html',{})
 
 def stars(request):
     session = GlobalSettings.objects.get().current_session
