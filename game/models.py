@@ -1,7 +1,7 @@
 from django.conf import settings
 from core.models import GlobalSettings
 from django.db import models
-
+from django.core.exceptions import ValidationError
 
 class Profile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
@@ -55,6 +55,7 @@ class Strategy(models.Model):
     # of amounts, to the other players, are passed along.
     @classmethod
     def newStrategy(cls,session,position,player,amounts):
+        print amounts
         if position < 1 or position > 5:
             raise ValidationError("Position should be in (1,2,3,4,5)")
         if any( n<0 for n in amounts ):

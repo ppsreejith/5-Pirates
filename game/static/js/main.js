@@ -54,9 +54,12 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	
 	window.scrollSubmit = function(){
 	    var form = $("div.homeTable form.scrollInput");
-	    var formvals = form.find("input"),sum=0;
-	    for (fc=0;fc++;fc<4){
+	    var formvals = form.find("input"),sum=0,fc=0;
+	    console.log(formvals);
+	    for(fc=0;fc++;fc<4){
+		console.log(formvals[fc]);
 		sum+=parseInt(formvals[fc].val());
+		console.log(sum);
 	    }
 	    if (sum > 100){
 		form.find("span.labelText.scrollError")[0].innerHTML= "You cant give away more than 100";
@@ -70,6 +73,32 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 		form.find("span.labelText.scrollError").innerHTML="Please check your values";
 	    }});
 	}
+
+	var Workspace = Backbone.Router.extend({
+
+	    routes: {
+		"play":                 "play",    // #help
+		"rules":        "rules",  // #search/kiwis
+		"dashboard": "dashboard"   // #search/kiwis/p7
+	    },
+
+	    play:function(){
+		$("div.active").removeClass("active");
+		$("div.mainOptionHome").addClass("active");
+	    },
+	    rules:function(){
+		$("div.active").removeClass("active");
+		$("div.mainOptionRules").addClass("active");
+	    },
+	    dashboard:function(){
+		$("div.active").removeClass("active");
+		$("div.mainOptionDashboard").addClass("active");
+	    }
+
+	});
+
+	var route = new Workspace();
+	Backbone.history.start();
 	
 	//Main menu
 	$('div.menuDropDown > a,img.topMenu').click(function(){

@@ -23,16 +23,21 @@ var PirateView = Backbone.View.extend({
     },
     render:function(){
 	var currentPirates = this.pirateCollection.where({userPos:this.position});
-	var html = "",counter = 1;
+	var html = "";
+	var counter = 1;
+	var sorted = {};
 	for(pirInd in currentPirates){
-	    pirate = currentPirates[pirInd]
-	    html += this.template({
+	    pirate = currentPirates[pirInd];
+	    sorted[pirate.get('position')+""]={
 		'position':pirate.get('position'),
 		'userPos':pirate.get('userPos'),
 		'imageLink':pirate.get('userPos')+""+pirate.get('position'),
 		'stars':starData[pirate.get('stars')],
-		'counter':counter++,
-	    });
+	    };
+	}
+	
+	for(pir in sorted){
+	    html += this.template(_.extend(sorted[pir],{'counter':counter++}));
 	}
 	this.$el.html(html);
     }

@@ -21,28 +21,26 @@
     <div class="p4Coins">
       <%= p4 %><span class="money">&#9921;</span>
     </div>
-    <div class="yourCoins">
-      Your Coins: <%= coins %><span class="money">&#9921;</span>
-    </div>
-    <img class="scroll" src="{% static "images/rules_scroll.png" %}" onclick="exitScroll();"/>
+    <img class="scroll" src="{% static "images/click.png" %}" onclick="exitScroll();"/>
     <form class="scrollInput rolled">
+      {% csrf_token %}
       <span class="closeButton" title="Exit" onclick="exitScroll();">X</span>
       <br/>
       <%= s1 %>
-      Player <%= pl1 %>: <input name="val<%= pl1 %>" type="text" value="<%= p1 %>" placeholder="00" />
+      Player <%= pl1 %>: <input name="val1" type="text" value="<%= p1 %>" placeholder="00" />
       <span class="money">&#9921;</span><br/>
       <%= s2 %>
-      Player <%= pl2 %>: <input name="val<%= pl2 %>" type="text" value="<%= p2 %>" placeholder="00" />
+      Player <%= pl2 %>: <input name="val2" type="text" value="<%= p2 %>" placeholder="00" />
       <span class="money">&#9921;</span><br/>
       <%= s3 %>
-      Player <%= pl3 %>: <input name="val<%= pl3 %>" type="text" value="<%= p3 %>" placeholder="00" />
+      Player <%= pl3 %>: <input name="val3" type="text" value="<%= p3 %>" placeholder="00" />
       <span class="money">&#9921;</span><br/>
       <%= s4 %>
-      Player <%= pl4 %>: <input name="val<%= pl4 %>" type="text" value="<%= p4 %>" placeholder="00" />
+      Player <%= pl4 %>: <input name="val4" type="text" value="<%= p4 %>" placeholder="00" />
       <span class="money">&#9921;</span><br/><br/>
       <span style="display:none;"><input name="pos" type="text" value="<%= pl5 %>" placeholder="00" /></span>
       <span class="labelText scrollError"></span>
-      <span class="scrollSubmit" onclick="scrollSubmit();">Submit</span>
+      <span class="scrollSubmit" >Submit</span>
     </form>
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -61,8 +59,7 @@
   </div>
   <div class="menuDropDown ascend">
     <img src="{% static "images/dropDown.png"%}"/>
-    <a class='dropDownOption' href="#home">Home</a>
-    <a class='dropDownOption' href="#about">About</a>
+    <a class='dropDownOption' href="#play">Play</a>
     <a class='dropDownOption' href="#dashboard">Dashboard</a>
     <a class='dropDownOption' href="#rules">Rules</a>
     <img src="{% static "images/dropDown.png"%}"/>
@@ -87,8 +84,16 @@
       </div>
     </div>
     <div class="mainOption mainOptionAbout"></div>
-    <div class="mainOption mainOptionDashboard"></div>
-    <div class="mainOption mainOptionRules"></div>
+    <div class="mainOption mainOptionDashboard active">
+      <div class="leaderboard">Leaderboard</div>
+      <div class="dashboardMessage">
+	Ahoy!! Welcome to Brethren of the Coast Session 0.0. Today's round is Practice session where we encourage you to browse through the rules of the game and the interface. A detailed section on How to Play has been added to facilitate your understanding. Once you are done with the rules, click on Start Playing to explore the game's interface. The competition starts with morning session on 26th October (8 am to 6 pm). You can log in anytime before the scheduled end of each session and make your moves. All the best!<br/><br/>
+	<div style="width:100%;text-align:center;">Click Menu on the top left to get started</div>
+      </div>
+    </div>
+    <div class="mainOption mainOptionRules" style="text-align:center;padding-top:15%;">
+      Will be uploaded in 5 minutes. Keep surfing the site.
+    </div>
   </div>
 </body>
 </html>

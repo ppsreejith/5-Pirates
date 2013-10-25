@@ -32,19 +32,21 @@ var TableView = Backbone.View.extend({
 	if(this.position == 5)
 	    distributing = "";
 	var i = 1;
-	for(table in currentTables){
-	    if(table.position == table.userPos){
-		obj["yourCoins"] = table.amount;
-		obj["pl5"] = table.userPos
+	for(tabIn in currentTables){
+	    table = currentTables[tabIn];
+	    console.log(table.get('position'));
+	    if(table.get('position') == table.get('userPos')){
+		obj["yourCoins"] = table.get('amount');
+		obj["pl5"] = table.get('userPos');
 	    }
 	    else{
-		obj["p"+table.position] = table.amount;
-		obj["pl"+(i++)] = table.position;
+		obj["p"+i] = table.get('amount');
+		obj["pl"+(i++)] = table.get('position');
 	    }
-	    obj["s"+table.position] = "";
+	    obj["s"+table.get('position')] = "";
 	}
 	obj["s1"] = accepting;
-	obj["s"+table.userPos] = distributing;
+	obj["s"+table.get('userPos')] = distributing;
 	this.$el.html(this.template(obj));
     }
 });
