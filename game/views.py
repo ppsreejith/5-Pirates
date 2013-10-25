@@ -25,10 +25,24 @@ def get_allocation(request):
     session = GlobalSettings.get().current_session
     player = Profile.objects.get(user__username=request.user)
     alloc_dict = Strategy.getHisAlloc(session, player)
-    return json_response(alloc_dict)`
+    return json_response(alloc_dict)
 
 def set_allocation(request):
     session = GlobalSettings.get().current_session
     player = Profile.objects.get(user__username=request.user)
+    data = request.POST.copy()
+    amounts = []
+    posn = data['pos']
+    amounts.append(data['val1'])
+    amounts.append(data['val2'])
+    amounts.append(data['val3'])
+    amounts.append(data['val4'])
+    sum = 0
+    for i in range(posn - 1, 5):
+        sum += amounts[i]
+    amounts.append(100 - sum)
+    Strategy.newStrategy(session, posn, player, amounts)
+    return HttpResponse("")
     
-    
+        
+        
