@@ -19,7 +19,7 @@ def game(request):
         #auth_login(request, user_login)
         return redirect('index')
     #return redirect('index')
-    return render(request,'game.html',{})
+    return render(request,'game.html',{'username':request.user.username})
 
 def stars(request):
     session = GlobalSettings.objects.get().current_session
