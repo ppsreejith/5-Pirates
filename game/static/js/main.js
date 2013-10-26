@@ -38,13 +38,31 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	    if (""+no == document.querySelector("div.miniMapBox5").innerHTML){
 		return;
 	    }
+	    var dashMess={
+		"1":"Ship 1: Queen Anne's Revenge. You are First in command (Player 1).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars. Click on the scroll kept on the table to make your moves as player 1. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"2":"Ship 2: Carolina. You are Second in command (Player 2).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 2. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"3":"Whydah Galley. You are Third in command (Player 3).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 3. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"4":"Adventure Galley. You are Fourth in command (Player 4).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 4. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"5":"Royal Revenge. You are Last in command (Player 5).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 5. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty."
+	    };
+	    var values = {
+		"1":"first",
+		"2":"second",
+		"3":"third",
+		"4":"fourth",
+		"5":"fifth",
+	    };
 	    globalEvent.trigger("change:position",{position:no});
 	    var arr = [1,2,3,4,5];
 	    arr.splice(arr.indexOf(no),1);
 	    arr.push(no);
-	    $("div.homeMiniMap > div.miniMapBox").each(function(index,el){
+	    var home = $("div.homeMiniMap"),last = 0;
+	    home.find("div.miniMapBox").each(function(index,el){
 		el.innerHTML = arr[index];
+		last = arr[index];
 	    });
+	    home.find("span.MiniMapPosition").html(values[last]);
+	    $("div.shipData").html(dashMess[last]);
 	});
 	
 	//scroll form submit
@@ -54,29 +72,30 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	
 	window.scrollSubmit = function(){
 	    var form = $("div.homeTable form.scrollInput");
-	    var formvals = form.find("input"),sum=0,fc=0;
-	    console.log(formvals);
-	    for(fc=0;fc++;fc<4){
-		console.log(formvals[fc]);
-		sum+=parseInt(formvals[fc].val());
-		console.log(sum);
-	    }
+	    var formvals = form.find("input.valContent"),sum=0,fc=0;
+	    formvals.each(function(i,e){
+		console.log(e);
+		sum+=parseInt(e.value);
+	    });
 	    if (sum > 100){
 		form.find("span.labelText.scrollError")[0].innerHTML= "You cant give away more than 100";
 		return;
 	    }
 	    form.find("span.scrollSubmit").innerHTML="Please Wait";
-	    $.ajax({type:"post",url:"/game/setalloc",data:form.serialize(),success:function(){
+	    $.ajax({type:"post",url:"/game/setalloc",data:form.serialize(),success:function(data){
+		submittedAll = parseInt(data);
 		globalEvent.trigger("scroll:submit");
 	    },error:function(){
 		form.find("span.scrollSubmit").innerHTML="Submit";
 		form.find("span.labelText.scrollError").innerHTML="Please check your values";
 	    }});
-	}
+	};
+	var submittedAll = 0;
 
 	var Workspace = Backbone.Router.extend({
 
 	    routes: {
+		"" : "dashboard",
 		"play":                 "play",    // #help
 		"rules":        "rules",  // #search/kiwis
 		"dashboard": "dashboard"   // #search/kiwis/p7
@@ -108,6 +127,22 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	//Initializing stuff
 	var pirateView = new Pirates();
 	var tableView = new Tables();
+	
+	window.onbeforeunload = function (e) {
+	    if(submittedAll == 1){
+		return False;
+	    }
+	    var message = "Avast!! You haven’t submitted your moves for all the ships.",
+	    e = e || window.event;
+	    // For IE and Firefox
+	    if (e) {
+		e.returnValue = message;
+	    }
+
+	    // For Safari
+	    
+	    return message;
+	}; 
     });
     return {};
 });

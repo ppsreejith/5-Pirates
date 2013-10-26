@@ -18,8 +18,8 @@ def game(request):
         #                          password = 'sreejithhere')
         #auth_login(request, user_login)
         return redirect('index')
-    return redirect('index')
-    #return render(request,'game.html',{})
+    #return redirect('index')
+    return render(request,'game.html',{})
 
 def stars(request):
     session = GlobalSettings.objects.get().current_session
@@ -36,7 +36,7 @@ def get_allocation(request):
 def set_allocation(request):
     session = GlobalSettings.objects.get().current_session
     player = Profile.objects.get(user__username=request.user)
-    print request.POST.get('val1')
+    print request.POST.get('val4')
     amounts = [int(request.POST.get('val1')),
                int(request.POST.get('val2')),
                int(request.POST.get('val3')),
@@ -45,8 +45,11 @@ def set_allocation(request):
     sum = 0
     for i in range(posn - 1, 4):
         sum += amounts[i]
-    amounts.append(100 - sum)
-    Strategy.newStrategy(session, posn, player, amounts)
+    amounts.insert(posn-1,100 - sum)
+    try:
+        Strategy.newStrategy(session, posn, player, amounts)
+    except Exception:
+        return HttpResponse("0")
     return HttpResponse("")
     
         
