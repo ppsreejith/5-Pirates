@@ -1,4 +1,4 @@
-from game.models import RoundAllotment, Strategy
+from game.models import RoundAllotment, Strategy, Profile
 from django.db.models import Max
 import random
 
@@ -57,6 +57,13 @@ def play_game(game):
             break
         else:
             print "Distribution of %d has been rejected with %d votes" %(curr_posn_cap, votes)
+
+def resetScores():
+    players = Profile.objects.all()
+    for player in players:
+        player.total_points = 0
+        player.save()
+    
 
 
 def storeScores(game, scores):
