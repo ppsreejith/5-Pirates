@@ -41,14 +41,14 @@ def set_allocation(request):
                int(request.POST.get('val2')),
                int(request.POST.get('val3')),
                int(request.POST.get('val4'))]
-    posn =  int(request.POST.get('pos'))
+    posn =  int(request.POST.get('pos')
     sum = 0
     for i in range(posn - 1, 4):
         sum += amounts[i]
     amounts.insert(posn-1,100 - sum)
     try:
         Strategy.newStrategy(session, posn, player, amounts)
-    catch Exception:
+    except Exception:
         return HttpResponse("0")
     return HttpResponse("")
     
