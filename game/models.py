@@ -2,6 +2,7 @@ from django.conf import settings
 from core.models import GlobalSettings
 from django.db import models
 from django.core.exceptions import ValidationError
+import random
 
 class Profile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True)
@@ -153,16 +154,24 @@ class RoundAllotment(models.Model):
                                         Q(pos4 = player) |
                                         Q(pos5 = player),
                                         session = session )
-        for i in range(1,6):
-            alott = alottment.get(**{ 'pos%d'%i : player })
-            pos1 = getattr( alott,'pos%d'%(i%5+1) )
-            pos2 = getattr( alott,'pos%d'%((i+1)%5+1) )
-            pos3 = getattr( alott,'pos%d'%((i+2)%5+1) )
-            pos4 = getattr( alott,'pos%d'%((i+3)%5+1) )
-            players.extend([{'position':i%5+1,'userPos':i,'stars':cls.starrify(pos1.rank)},
-                            {'position':(i+1)%5+1,'userPos':i,'stars':cls.starrify(pos2.rank)},
-                            {'position':(i+2)%5+1,'userPos':i,'stars':cls.starrify(pos3.rank)},
-                            {'position':(i+3)%5+1,'userPos':i,'stars':cls.starrify(pos4.rank)}])
+        if(len(alottment) != 5):
+            #generate random return dict
+            for i in range(1, 6):
+                for j in range(1, 6):
+                    if i == j:
+                        continue
+                    players.extend([{'position':j, 'userPos':i, 'stars':random.randint(1,3)}])
+        else:
+            for i in range(1,6):
+                alott = alottment.get(**{ 'pos%d'%i : player })
+                pos1 = getattr( alott,'pos%d'%(i%5+1) )
+                pos2 = getattr( alott,'pos%d'%((i+1)%5+1) )
+                pos3 = getattr( alott,'pos%d'%((i+2)%5+1) )
+                pos4 = getattr( alott,'pos%d'%((i+3)%5+1) )
+                players.extend([{'position':i%5+1,'userPos':i,'stars':cls.starrify(pos1.rank)},
+                                {'position':(i+1)%5+1,'userPos':i,'stars':cls.starrify(pos2.rank)},
+                                {'position':(i+2)%5+1,'userPos':i,'stars':cls.starrify(pos3.rank)},
+                                {'position':(i+3)%5+1,'userPos':i,'stars':cls.starrify(pos4.rank)}])
         return players
 
 
