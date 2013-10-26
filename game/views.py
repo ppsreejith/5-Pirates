@@ -14,10 +14,10 @@ def json_response(something):
 
 def game(request):
     if not request.user.is_authenticated():
-        user_login = authenticate(username = 'testuser3',
-                                  password = 'sreejithhere')
-        auth_login(request, user_login)
-        #return redirect('index')
+        #user_login = authenticate(username = 'testuser3',
+        #                          password = 'sreejithhere')
+        #auth_login(request, user_login)
+        return redirect('index')
     #return redirect('index')
     return render(request,'game.html',{})
 

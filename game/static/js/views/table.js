@@ -20,20 +20,38 @@ var TableView = Backbone.View.extend({
 	form.find("span.labelText.scrollError")[0].innerHTML= "";
     },
     template:_.template($("#tableTemplate").html()),
+    par:function(){
+	var that = this,attr;
+	var counterI = {1:0,2:0,3:0,4:0,5:0};
+	for(ind in that.tableCollection.models){
+	    attr = that.tableCollection.at(ind).attributes;
+	    if(attr.amount == 0)
+		continue;
+	    counterI[attr.userPos]+=1;
+	}
+	for(i in counterI){
+	    if(counterI[i] != 0)
+		that.notSubmittedArray.splice(i-1,1);
+	}
+	console.log(that.notSubmittedArray);
+    },
     initialize:function(){
 	_.bindAll(this, "changed");
 	var that = this;
+	this.notSubmittedArray = [1,2,3,4,5];
 	globalEvent.on("change:position",function(newP){
 	    that.position = newP.position;
 	    that.render();
 	});
 	globalEvent.on("scroll:submit",function(){
-	    that.tableCollection.fetch({success:function(){
-		that.render();
-	    }});
+	that.tableCollection.fetch({success:function(){
+	    that.par();
+	    that.render();
+	}});
 	});
 	this.tableCollection =new Round.Tables(),
 	this.tableCollection.fetch({success:function(){
+	    that.par();
 	    that.render();
 	}});
     },
@@ -43,7 +61,6 @@ var TableView = Backbone.View.extend({
 	var obj = {};
 	var accepting = "<span class=\"labelText\">Minimum that you are willing to accept from:</span><br/>";
 	var distributing = "<span class=\"labelText\">Proposed distribution when in command:</span><br/>";
-	console.log(distributing);
 	if(this.position == 1)
 	    accepting = "";
 	if(this.position == 5)
