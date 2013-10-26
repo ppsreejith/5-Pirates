@@ -1,4 +1,4 @@
-<!doctype html/>
+B1;3406;0c<!doctype html/>
 {% load static %}
 <html>
 <head>
@@ -9,38 +9,46 @@
     </div>	
   </script>
   <script type="text/html" id="tableTemplate">
-    <div class="p1Coins">
+    <div class="p1Coins colorScr<%= v1 %>">
       <%= p1 %><span class="money">&#9921;</span>
     </div>
-    <div class="p2Coins">
+    <div class="p2Coins colorScr<%= v2 %>">
       <%= p2 %><span class="money">&#9921;</span>
     </div>
-    <div class="p3Coins">
+    <div class="p3Coins colorScr<%= v3 %>">
       <%= p3 %><span class="money">&#9921;</span>
     </div>
-    <div class="p4Coins">
+    <div class="p4Coins colorScr<%= v4 %>">
       <%= p4 %><span class="money">&#9921;</span>
     </div>
     <img class="scroll" src="{% static "images/click.png" %}" onclick="exitScroll();"/>
+    <span class="labelText yourTableCoins">Your Coins: 
+      <span class="yourMoneyScroll"><%= yourCoins %></span>
+      <span class="money">&#9921;</span>
+    </span>
     <form class="scrollInput rolled">
       {% csrf_token %}
       <span class="closeButton" title="Exit" onclick="exitScroll();">X</span>
       <br/>
       <%= s1 %>
-      Player <%= pl1 %>: <input name="val1" type="text" value="<%= p1 %>" placeholder="00" />
+      Player <%= pl1 %>: <input class="valCont<%= v1 %>" name="val1" type="number" value="<%= p1 %>" placeholder="00" min="0" max="100" step="1"/>
       <span class="money">&#9921;</span><br/>
       <%= s2 %>
-      Player <%= pl2 %>: <input name="val2" type="text" value="<%= p2 %>" placeholder="00" />
+      Player <%= pl2 %>: <input class="valCont<%= v2 %>" name="val2" type="number" value="<%= p2 %>" placeholder="00" min="0" max="100" step="1"/>
       <span class="money">&#9921;</span><br/>
       <%= s3 %>
-      Player <%= pl3 %>: <input name="val3" type="text" value="<%= p3 %>" placeholder="00" />
+      Player <%= pl3 %>: <input class="valCont<%= v3 %>" name="val3" type="number" value="<%= p3 %>" placeholder="00" min="0" max="100" step="1"/>
       <span class="money">&#9921;</span><br/>
       <%= s4 %>
-      Player <%= pl4 %>: <input name="val4" type="text" value="<%= p4 %>" placeholder="00" />
+      Player <%= pl4 %>: <input class="valCont<%= v4 %>" name="val4" type="number" value="<%= p4 %>" placeholder="00" min="0" max="100" step="1"/>
       <span class="money">&#9921;</span><br/><br/>
       <span style="display:none;"><input name="pos" type="text" value="<%= pl5 %>" placeholder="00" /></span>
-      <span class="labelText scrollError"></span>
-      <span class="scrollSubmit" >Submit</span>
+      <span class="labelText scrollError"></span><br/>
+      <span class="labelText">Your Coins: 
+	<span class="yourMoneyScroll"><%= yourCoins %></span>
+	<span class="money">&#9921;</span>
+      </span><br/><br/>
+      <span class="scrollSubmit" onclick="scrollSubmit();">Submit</span>
     </form>
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -52,6 +60,7 @@
   <script src="{% static "js/require.js" %}" data-main="{% static "js/main.js" %}" ></script>
 </head>
 <body>
+  <script>document.body.childNodes[0].remove();</script>
   <div class='topBar'>
     <img src="{% static "images/Menu.png" %}" class="topMenu" />
     <img src="{% static "images/BOTC1.png" %}" class="topLogo" />
@@ -65,30 +74,36 @@
     <img src="{% static "images/dropDown.png"%}"/>
   </div>
   <div class="mainBar">
-    <div class="mainOption mainOptionHome"%>
-      <div class="treasure"></div>
-      <img class="flag" />
+    <div class="mainOption mainOptionHome">
+      <div class="shipData">
+	Ship 1: Queen Anne's Revenge. You are First in command (Player 1).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars. Click on the scroll kept on the table to make your moves as player 1. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.
+      </div>
       <div class="pirates">
       </div>
       <div class="homeTable">
 	
       </div>
-      <div class="homeMiniMapLabel">Your Position</div>
+      <div class="homeMiniMapLabel2">Click on a number to play in that position.</div>
       <div class="homeMiniMap">
 	<div class="miniMapTable"></div>
-	<div class="miniMapBox1 miniMapBox">1</div>
-	<div class="miniMapBox2 miniMapBox">2</div>
-	<div class="miniMapBox3 miniMapBox">3</div>
-	<div class="miniMapBox4 miniMapBox">4</div>
-	<div class="miniMapBox5 miniMapBox">5</div>
+	<div class="miniMapBox1 miniMapBox">2</div>
+	<div class="miniMapBox2 miniMapBox">3</div>
+	<div class="miniMapBox3 miniMapBox">4</div>
+	<div class="miniMapBox4 miniMapBox">5</div>
+	<div class="miniMapBox5 miniMapBox">1</div>
+      <div class="homeMiniMapLabel">You are <span class="MiniMapPosition">first</span> in command</div>
       </div>
     </div>
     <div class="mainOption mainOptionAbout"></div>
-    <div class="mainOption mainOptionDashboard active">
+    <div class="mainOption mainOptionDashboard">
       <div class="leaderboard">Leaderboard</div>
       <div class="dashboardMessage">
-	Ahoy!! Welcome to Brethren of the Coast Session 0.0. Today's round is Practice session where we encourage you to browse through the rules of the game and the interface. A detailed section on How to Play has been added to facilitate your understanding. Once you are done with the rules, click on Start Playing to explore the game's interface. The competition starts with morning session on 26th October (8 am to 6 pm). You can log in anytime before the scheduled end of each session and make your moves. All the best!<br/><br/>
-	<div style="width:100%;text-align:center;">Click Menu on the top left to get started</div>
+	Ahoy!! Welcome to Brethren of the Coast Session 1.0. Today's morning round is a Practice session where we encourage you to browse through the Rules section under Menu and the game’s interface. A detailed section on How to Play has been added to facilitate your understanding. Once you get the hang of it each session should take only 10-15 minutes.
+
+Once you are done with the Rules, click on Play to explore the game's interface. You can make your moves and your results will be displayed when you log into next session. The results of this practice session will have no impact on your final score.
+
+The competition starts with night session on 26th October (9 pm to 1 am). You can log in anytime before the scheduled end of each session and make your moves. All the best!<br/><br/>
+	<div style="width:100%;text-align:center;">CLICK ON MENU ON TOP LEFT TO GET STARTED</div>
       </div>
     </div>
     <div class="mainOption mainOptionRules" style="text-align:center;padding-top:15%;">
