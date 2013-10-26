@@ -81,7 +81,7 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 		form.find("span.labelText.scrollError")[0].innerHTML= "You cant give away more than 100";
 		return;
 	    }
-	    form.find("span.scrollSubmit").innerHTML="Please Wait";
+	    form.find("span.scrollSubmit")[0].innerHTML="Please Wait";
 	    $.ajax({type:"post",url:"/game/setalloc",data:form.serialize(),success:function(data){
 		submittedAll = parseInt(data);
 		globalEvent.trigger("scroll:submit");

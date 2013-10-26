@@ -44,8 +44,10 @@ var TableView = Backbone.View.extend({
 	    that.render();
 	});
 	globalEvent.on("scroll:submit",function(){
+	that.tableCollection.fetch({success:function(){
 	    that.par();
 	    that.render();
+	}});
 	});
 	this.tableCollection =new Round.Tables(),
 	this.tableCollection.fetch({success:function(){
