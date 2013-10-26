@@ -9,6 +9,8 @@ def play_session(sess):
     games = RoundAllotment.objects.order_by('group_id', 'game_id').filter(session=sess)
     for game in games:
         play_game(game)
+
+avg_strats = [[],[],[],[],[]]
     
 
 def play_game(game):
@@ -19,10 +21,16 @@ def play_game(game):
         curr_list = []
         curr_player = getattr(game, 'pos%d'%curr_posn_cap)
         #print curr_player
-        curr_strat = poss_strats.get(player=curr_player, position=curr_posn_cap)
-        for opp_posn in range(1, 6):
-            amt = getattr(curr_strat, 'amount%d'%opp_posn)
-            curr_list.append(amt)
+        try:
+            curr_strat = poss_strats.get(player=curr_player, position=curr_posn_cap)
+        except:
+            #set curr_strat to be avg of the strategy of all other players
+            print "Using average strategy for player %d"%curr_posn_cap
+            curr_list = avg_strats[curr_posn_cap - 1]
+        else:
+            for opp_posn in range(1, 6):
+                amt = getattr(curr_strat, 'amount%d'%opp_posn)
+                curr_list.append(amt)
         #print curr_list
         strat_list.append(curr_list)
     print strat_list
@@ -58,8 +66,45 @@ def storeScores(game, scores):
     game.sco4 = scores[3]
     game.sco5 = scores[4]
     #update for players
+    for i in range(1, 6):
+        curr_player = getattr(game, 'pos%d'%i)
+        pts = curr_player.total_points
+        pts += scores[i - 1]
+        curr_player.total_points = pts
+        print "Updating player:" + curr_player.user.username + " points to %d"%pts
+        curr_player.save()
+        
     game.save()
-    
+
+def getAvgStrategies(sess):
+    for i in range(1, 6):
+        getAvgStrategy(i, sess)
+    for i in range(1, 6):
+        sumk = 0
+        for j in range(i, 6):
+            sumk += avg_strats[i - 1][j - 1]
+        if(sumk < 100):
+            addk = 100 - sumk
+            avg_strats[i - 1][4] += addk
+    print "avg_strats"
+    print avg_strats
+
+
+
+def getAvgStrategy(position, sess):
+    strategies = Strategy.objects.filter(position=position, session=sess)
+    avg_strat = [0,0,0,0,0]
+    cnt = 0
+    for strat in strategies:
+        cnt += 1
+        for i in range(1, 6):
+            alloc = getattr(strat, 'amount%d'%i)
+            avg_strat[i - 1] += alloc
+    for i in range(1, 6):
+        avg_strat[i - 1] /= cnt
+    print "Average strategy at position=%d for session=%d is"%(position, sess)
+    print avg_strat
+    avg_strats[position - 1] = avg_strat
     
     
         
