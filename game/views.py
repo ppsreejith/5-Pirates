@@ -19,7 +19,7 @@ def game(request):
         #auth_login(request, user_login)
         return redirect('index')
     #return redirect('index')
-    return render(request,'game.html',{})
+    return render(request,'game.html',{'username':request.user.username})
 
 def stars(request):
     session = GlobalSettings.objects.get().current_session
@@ -41,7 +41,7 @@ def set_allocation(request):
                int(request.POST.get('val2')),
                int(request.POST.get('val3')),
                int(request.POST.get('val4'))]
-    posn =  int(request.POST.get('pos')
+    posn =  int(request.POST.get('pos'))
     sum = 0
     for i in range(posn - 1, 4):
         sum += amounts[i]
