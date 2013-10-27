@@ -8,14 +8,14 @@ import json
 
 def index(request,message = ''):
     if request.user.is_authenticated():
-       message = request.user.username + ', You have been registered. Session 1 is over. Session 2 starts on 27th Oct, 9:00 PM. Follow us on facebook. https://www.facebook.com/The.KGTS. You can login again under a different facebook account.'
+       message = request.user.username + ', You have been registered. Session 1 is over. Session 2 starts on 27th Oct, 9:30 PM. Follow us on facebook. https://www.facebook.com/The.KGTS. You can login again under a different facebook account.'
         #return redirect('gamnt.
     return render(request,'index.html',{'message':message})
 
 def login(request):
     
     # The workflow is: we get the `code` from the get request.
-    # We then proceed to exchange it for an `access token` from facebook.
+    # We then proceed to exchange it for an `access token` from facebook3
     # We then obtain user info using the `access token` and proceed to
     # either log him in or sign him up.
     
