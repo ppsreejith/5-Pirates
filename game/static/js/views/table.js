@@ -21,7 +21,7 @@ var TableView = Backbone.View.extend({
     },
     template:_.template($("#tableTemplate").html()),
     par:function(){
-	var that = this,attr;
+	var that = this,attr,notSubmittedArrayDup=[1,2,3,4,5];
 	var counterI = {1:0,2:0,3:0,4:0,5:0};
 	for(ind in that.tableCollection.models){
 	    attr = that.tableCollection.at(ind).attributes;
@@ -29,11 +29,18 @@ var TableView = Backbone.View.extend({
 		continue;
 	    counterI[attr.userPos]+=1;
 	}
-	for(i in counterI){
-	    if(counterI[i] != 0)
-		that.notSubmittedArray.splice(i-1,1);
+	var len = 0;
+	for(var i in counterI){
+	    if(counterI[i] != 0){
+		notSubmittedArrayDup[i-1]=-1;
+		len ++;
+	    }
 	}
-	console.log(that.notSubmittedArray);
+	notSubmittedArrayDup.sort();
+	for(var i=0;i<len;i++){
+	    notSubmittedArrayDup.shift();
+	}
+	that.notSubmittedArray = notSubmittedArrayDup;
     },
     initialize:function(){
 	_.bindAll(this, "changed");

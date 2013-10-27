@@ -127,12 +127,12 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	//Initializing stuff
 	var pirateView = new Pirates();
 	var tableView = new Tables();
-	
 	window.onbeforeunload = function (e) {
-	    if(submittedAll == 1){
+	    var arr = tableView.notSubmittedArray;
+	    if(arr.length == 0){
 		return False;
 	    }
-	    var message = "Avast!! You haven’t submitted your moves for all the ships.",
+	    var message = "Avast!! You haven’t played in positions: "+arr.toString();
 	    e = e || window.event;
 	    // For IE and Firefox
 	    if (e) {
@@ -140,9 +140,8 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	    }
 
 	    // For Safari
-	    
 	    return message;
-	}; 
+	};
     });
     return {};
 });
