@@ -21,6 +21,15 @@ def game(request):
     #return redirect('index')
     return render(request,'game.html',{'username':request.user.username})
 
+def get_score(request):
+    player = Profile.objects.get(user__username=request.user.username)
+    score = Profile.get_score(player)
+    return json_response(score)
+
+def get_leaderboard(request):
+    leader_dict = Profile.get_leaderboard(50)
+    return json_response(leader_dict)
+    
 def stars(request):
     session = GlobalSettings.objects.get().current_session
     player = Profile.objects.get(user__username=request.user.username)

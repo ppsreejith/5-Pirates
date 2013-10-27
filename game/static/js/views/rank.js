@@ -1,7 +1,8 @@
 define(['jquery','lodash','backbone','models/rank'],function($,_,Backbone,RankList){
 
 var RankView = Backbone.View.extend({
-    el:'div.leaderBoard',
+    el:'div.leaderboardRanks',
+    template:_.template($("#leaderBoardTemplate").html()),
     initialize:function(){
 	var that = this;
 	this.rankCollection = new RankList();
@@ -13,10 +14,18 @@ var RankView = Backbone.View.extend({
     },
     render:function(){
 	var currentRanks = this.rankCollection.models();
+	html = "";
 	for(rank in currentRanks){
-	    
-	}
+	    html += this.template(
+		{'rank':rank.get('rank'),
+		 'name':rank.get('username'),
+		 'score':rank.get('score')}
+				 );
+	};
+	this.$el.html(html);
     }
 });
+
+return RankView;
 
 });

@@ -2,8 +2,8 @@
 {% load static %}
 <html>
 <head>
-  <script type="text/html" id="leaderBoard">
-    
+  <script type="text/html" id="leaderBoardTemplate">
+    <div class="leaderboardPlank"><span style="float:left;"><%= rank %></span> <%= name %> <span style="float:right;"><%= score %></span></div>
   </script>
   <script type="text/html" id="pirateTemplate">
     <div class="pirate<%=counter %>">
@@ -100,16 +100,14 @@
     <div class="mainOption mainOptionAbout"></div>
     <div class="mainOption mainOptionDashboard active">
       <div class="leaderboard">Leaderboard</div>
+      <div class="leaderboardRanks">
+      </div>
       <div class="dashboardMessage">
-	Ahoy {{username}}!! <br/><p>Welcome to Brethren of the Coast Session 1. We encourage you to browse through the Rules section under Menu and the game’s interface. A detailed section on How to Play has been added to facilitate your understanding. Once you get the hang of it each session should take only 10-15 minutes.</p><br/>
+	Ahoy {{username}}!! <br/><p>Welcome to Brethren of the Coast Session 1. We encourage you to browse through the Rules section under Menu and the game’s interface. A detailed section on How to Play has been added to facilitate your understanding. Once you get the hang of it each session should take only 10-15 minutes.</p>
 
-<p>Once you are done with the Rules, click on Play to play the game. The results of this session will be displayed at the start of the next session and will be reflected in your score.</p><br/>
+<p>Once you are done with the Rules, click on Play to play the game. The results of this session will be displayed at the start of the next session.</p>
 
-<p>This session ends on 27th October, 1am. You can log in anytime before the scheduled end of each session and make your moves. The next session will begin on 27th October, 9am.</p></br/>
-
-Note: The results for the practice session have been withheld so as not to disadvantage new players.
-
-All the best!<br/><br/>
+<p>This session ends on 27th October, 1am. You can log in anytime before the scheduled end of each session and make your moves. The next session will begin on 27th October, 9am.</p>
 	<div style="width:100%;text-align:center;">CLICK ON MENU ON TOP LEFT TO GET STARTED</div>
       </div>
     </div>

@@ -17,6 +17,7 @@ def play_game(game):
     print "Playing game sess=%d group_id=%d game_id=%d"%(game.session, game.group_id, game.game_id)
     poss_strats = Strategy.objects.filter(session=game.session)
     strat_list = []
+    avg = [False, False, False, False, False, False]
     for curr_posn_cap in range(1, 6):
         curr_list = []
         curr_player = getattr(game, 'pos%d'%curr_posn_cap)
@@ -26,6 +27,7 @@ def play_game(game):
         except:
             #set curr_strat to be avg of the strategy of all other players
             print "Using average strategy for player %d"%curr_posn_cap
+            avg[curr_posn_cap] = True
             curr_list = avg_strats[curr_posn_cap - 1]
         else:
             for opp_posn in range(1, 6):
@@ -51,7 +53,10 @@ def play_game(game):
             for i in range(1, curr_posn_cap):
                 scores.append(0)
             for i in range(curr_posn_cap, 6):
-                scores.append(strat_list[curr_posn_cap - 1][i - 1])
+                if avg[i] == True:
+                    scores.append(0)
+                else:
+                    scores.append(strat_list[curr_posn_cap - 1][i - 1])
             print scores
             storeScores(game, scores)
             break
