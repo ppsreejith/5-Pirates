@@ -411,6 +411,9 @@ width:23%;
 height:60%;
 cursor:pointer;
 }
+div.historyScores > img{
+width:100%;
+}
 div.historyZoomed{
 left:20% !important;
 top:10% !important;
