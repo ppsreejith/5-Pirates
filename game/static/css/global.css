@@ -408,7 +408,7 @@ position:absolute;
 left:0;
 bottom:0;
 width:23%;
-height:60%;
+height:40%;
 cursor:pointer;
 }
 div.historyScores > img{
@@ -416,8 +416,18 @@ width:100%;
 }
 div.historyZoomed{
 left:20% !important;
-top:10% !important;
+top:5% !important;
 width:60% !important;
 height:80% !important;
 z-index:9999;
+}
+a.flavourad{
+display:inline-block;
+position:absolute;
+top:0;
+left:0;
+width:28%;
+}
+a.flavourad > img{
+width:100%;
 }
