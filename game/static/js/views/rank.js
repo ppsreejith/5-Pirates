@@ -13,9 +13,10 @@ var RankView = Backbone.View.extend({
 	});
     },
     render:function(){
-	var currentRanks = this.rankCollection.models();
+	var currentRanks = this.rankCollection.models;
 	html = "";
-	for(rank in currentRanks){
+	for(rInd in currentRanks){
+	    rank = currentRanks[rInd];
 	    html += this.template(
 		{'rank':rank.get('rank'),
 		 'name':rank.get('username'),

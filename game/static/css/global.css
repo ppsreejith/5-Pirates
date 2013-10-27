@@ -112,20 +112,20 @@ text-align:center;
 background-size:100% 100%;
 color:white;
 padding:10px;
-font-size:30px;
-height:50px;
+font-size:25px;
+height:40px;
 box-sizing:border-box;
 }
 div.leaderboardRanks{
 position:absolute;
-top:50px;
+top:40px;
 right:0;
 width:21%;
-font-size:30px;
+font-size:25px;
 color:white;
 }
 div.leaderboardPlank{
-padding:8px;
+padding:4px;
 text-align:center;
 box-sizing:border-box;
 background-image:url(/static/images/Plank.png);

@@ -11,7 +11,7 @@ var Rank = Backbone.Model.extend({
 var RankList = Backbone.Collection.extend({
     model:Rank,
     url:'/game/leaderboard',
-    comparator = function(model) {
+    comparator:function(model) {
 	return model.get('rank');
     }
 });
