@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: "http://kgts.in/static/js/",
+    baseUrl: "/static/js/",
     paths: { 
         'jquery': ['http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min','libs/jquery-min.js'],
         'lodash': 'libs/lodash.min',
