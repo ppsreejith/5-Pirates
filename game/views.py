@@ -15,11 +15,11 @@ def json_response(something):
 def game(request):
     if not request.user.is_authenticated():
         #user_login = authenticate(username = 'testuser3',
-                                  password = 'sreejithhere')
+                                  #password = 'sreejithhere')
         #auth_login(request, user_login)
         return redirect('index')
-    #return redirect('index')
-    return render(request,'game.html',{'username':request.user.username})
+    return redirect('index')
+    #return render(request,'game.html',{'username':request.user.username})
 
 def get_score(request):
     player = Profile.objects.get(user__username=request.user.username)
