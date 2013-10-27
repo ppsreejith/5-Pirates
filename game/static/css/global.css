@@ -107,12 +107,31 @@ position:absolute;
 top:0;
 right:0;
 background-image:url(/static/images/Plank.png);
-width:14%;
+width:21%;
 text-align:center;
 background-size:100% 100%;
 color:white;
 padding:10px;
-font-size:30px;
+font-size:25px;
+height:40px;
+box-sizing:border-box;
+}
+div.leaderboardRanks{
+position:absolute;
+top:40px;
+right:0;
+width:21%;
+font-size:25px;
+color:white;
+}
+div.leaderboardPlank{
+padding:4px;
+text-align:center;
+box-sizing:border-box;
+background-image:url(/static/images/Plank.png);
+padding-right:35px;
+background-size:100% 100%;
+width:100%;
 }
 div.dashboardMessage{
 position:absolute;
@@ -383,4 +402,19 @@ div.rulestext{
 overflow-y:scroll;
 max-height:70%;
 padding:1%;
+}
+div.historyScores{
+position:absolute;
+left:0;
+bottom:0;
+width:23%;
+height:60%;
+cursor:pointer;
+}
+div.historyZoomed{
+left:20% !important;
+top:10% !important;
+width:60% !important;
+height:80% !important;
+z-index:9999;
 }

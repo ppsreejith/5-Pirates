@@ -15,13 +15,14 @@ class Profile(models.Model):
         return self.user.username
 
     @classmethod
-    def get_leaderboard(cls, no):
+    def get_leaderboard(cls, no, profile):
         players = cls.objects.order_by('total_points').reverse()[:no]
         ret = []
         cnt = 0
         for player in players:
             cnt += 1
             ret.extend([{'rank':cnt,'score':player.total_points,'username':player.user.username}])
+        ret.extend([{'rank':profile.rank,'score':profile.total_points,'username':profile.user.username}])
         return ret
 
     @classmethod

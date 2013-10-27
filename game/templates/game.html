@@ -1,7 +1,10 @@
-B1;3406;0c<!doctype html/>
+<!doctype html/>
 {% load static %}
 <html>
 <head>
+  <script type="text/html" id="leaderBoardTemplate">
+    <div class="leaderboardPlank"><span style="float:left;"><%= rank %></span> <%= name %> <span style="float:right;"><%= score %></span></div>
+  </script>
   <script type="text/html" id="pirateTemplate">
     <div class="pirate<%=counter %>">
       <img class="stars" src="<%= stars %>"/>
@@ -96,7 +99,10 @@ B1;3406;0c<!doctype html/>
     </div>
     <div class="mainOption mainOptionAbout"></div>
     <div class="mainOption mainOptionDashboard active">
+      <div class="historyScores" onclick="$('div.historyScores').toggleClass('historyZoomed');"></div>
       <div class="leaderboard">Leaderboard</div>
+      <div class="leaderboardRanks">
+      </div>
       <div class="dashboardMessage">
 
 	Ahoy {{username}}!! <br/><p>Welcome to Brethren of the Coast Session 2.</p><br/>
