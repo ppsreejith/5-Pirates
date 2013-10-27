@@ -1,4 +1,4 @@
-define(['backbone'], function(Backbone){
+define(['lodash','backbone'], function(_,Backbone){
 
 var Rank = Backbone.Model.extend({
     defaults: {
@@ -13,7 +13,7 @@ var RankList = Backbone.Collection.extend({
     url:'/game/leaderboard',
     comparator:function(model) {
 	return model.get('rank');
-    }
+    },
 });
 
 return RankList;

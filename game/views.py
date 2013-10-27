@@ -14,10 +14,10 @@ def json_response(something):
 
 def game(request):
     if not request.user.is_authenticated():
-        user_login = authenticate(username = 'testuser3',
+        #user_login = authenticate(username = 'testuser3',
                                   password = 'sreejithhere')
-        auth_login(request, user_login)
-        #return redirect('index')
+        #auth_login(request, user_login)
+        return redirect('index')
     #return redirect('index')
     return render(request,'game.html',{'username':request.user.username})
 
@@ -27,7 +27,7 @@ def get_score(request):
     return json_response(score)
 
 def get_leaderboard(request):
-    leader_dict = Profile.get_leaderboard(50)
+    leader_dict = Profile.get_leaderboard(10,Profile.objects.get(user__id = request.user.id))
     return json_response(leader_dict)
     
 def stars(request):

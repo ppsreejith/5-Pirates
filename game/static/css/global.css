@@ -403,3 +403,18 @@ overflow-y:scroll;
 max-height:70%;
 padding:1%;
 }
+div.historyScores{
+position:absolute;
+left:0;
+bottom:0;
+width:23%;
+height:60%;
+cursor:pointer;
+}
+div.historyZoomed{
+left:20% !important;
+top:10% !important;
+width:60% !important;
+height:80% !important;
+z-index:9999;
+}
