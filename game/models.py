@@ -14,6 +14,22 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    @classmethod
+    def get_leaderboard(cls, no):
+        players = cls.objects.order_by('total_points').reverse()[:no]
+        ret = []
+        cnt = 0
+        for player in players:
+            cnt += 1
+            ret.extend([{'rank':cnt,'score':player.total_points,'username':player.user.username}])
+        return ret
+
+    @classmethod
+    def get_score(cls, player):
+        ret_dict = []
+        ret_dict.extend([{'score':player.total_points}])
+        return ret_dict
+
 # Each round, `player_one` in position `position_one` pays/demands
 # `amount` money to/from `player_two` in position `position_two`
 
