@@ -107,7 +107,7 @@ position:absolute;
 top:0;
 right:0;
 background-image:url(/static/images/Plank.png);
-width:21%;
+width:27%;
 text-align:center;
 background-size:100% 100%;
 color:white;
@@ -120,7 +120,7 @@ div.leaderboardRanks{
 position:absolute;
 top:40px;
 right:0;
-width:21%;
+width:27%;
 font-size:25px;
 color:white;
 }

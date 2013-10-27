@@ -18,7 +18,7 @@ var RankView = Backbone.View.extend({
 	for(rInd in currentRanks){
 	    rank = currentRanks[rInd];
 	    html += this.template(
-		{'rank':rank.get('rank'),
+		{'rank':(rank.get('rank')+"").substr(0,5),
 		 'name':rank.get('username'),
 		 'score':rank.get('score')}
 				 );
