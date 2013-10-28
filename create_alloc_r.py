@@ -7,7 +7,7 @@ def get_cycle(no):
     
 
 def create_alloc(sess):
-    players = Profile.objects.order_by('rank')
+    players = Profile.objects.order_by('rank')[:126]
     k = players.count() / 21 #ignoring surpluses for the moment
     curr_list = []
     for i in range(k):
