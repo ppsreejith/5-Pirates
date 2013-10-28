@@ -411,8 +411,14 @@ width:23%;
 height:40%;
 cursor:pointer;
 }
-div.historyScores > img{
-width:100%;
+div.historyScores > p{
+text-align:center;
+position:absolute;
+top:20%;
+font-size:30px;
+color:white;
+display:inline-block;
+left:1%;
 }
 div.historyZoomed{
 left:20% !important;
@@ -426,7 +432,7 @@ display:inline-block;
 position:absolute;
 top:0;
 left:0;
-width:24%;
+width:18%;
 }
 a.flavourad > img{
 width:100%;
