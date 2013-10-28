@@ -26,7 +26,7 @@ function($, _, Backbone){
 });
 
 //Event Loaders, Dom Interaction
-require(['jquery','domReady','backbone','views/pirates','views/table'],function($,domReady,Backbone,Pirates,Tables){
+require(['jquery','domReady','backbone','views/pirates','views/table','views/rank'],function($,domReady,Backbone,Pirates,Tables,RankView){
 
     domReady(function(){
 	//Event related stuff
@@ -127,6 +127,7 @@ require(['jquery','domReady','backbone','views/pirates','views/table'],function(
 	//Initializing stuff
 	var pirateView = new Pirates();
 	var tableView = new Tables();
+	var ranks = new RankView();
 	window.onbeforeunload = function (e) {
 	    var arr = tableView.notSubmittedArray;
 	    if(arr.length == 0){
