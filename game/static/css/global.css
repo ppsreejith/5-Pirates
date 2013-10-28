@@ -415,10 +415,10 @@ div.historyScores > p{
 text-align:center;
 position:absolute;
 top:20%;
-font-size:30px;
+font-size:40px;
 color:white;
 display:inline-block;
-left:1%;
+left:4%;
 }
 div.historyZoomed{
 left:20% !important;
