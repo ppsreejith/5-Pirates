@@ -9,8 +9,8 @@ import json
 
 def index(request,message = ''):
     if request.user.is_authenticated():
-       message = request.user.username + ', You have been registered. Session 3 is over. Session 4 starts on 28th Oct, 10:00 PM. Follow us on facebook. https://www.facebook.com/The.KGTS. You can login again under a different facebook account.'
-       return redirect('game')
+       message = request.user.username + ', You have been registered. The preliminary round has ended. Follow us on facebook. https://www.facebook.com/The.KGTS.'
+       #return redirect('game')
 
     return render(request,'index.html',{'message':message})
 
