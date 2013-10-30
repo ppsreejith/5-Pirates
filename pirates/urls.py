@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -10,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^m/(?P<message>.*)$', 'core.views.index', name='index_m'),
     url(r'^login', 'core.views.login', name='login'),
     url(r'^game$', 'game.views.game', name='game'),
+    url(r'^results$',TemplateView.as_view(template_name='results.html')),
     # url(r'^pirates/', include('pirates.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
