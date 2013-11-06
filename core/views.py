@@ -43,7 +43,7 @@ def login(request):
                 #user.last_name = user_data['last_name']
                 #user.save()
                 #profile = Profile(user = user,
-                                  facebook_id = user_data['id'])
+                                  #facebook_id = user_data['id'])
                 #profile.save()
                 #user_login = authenticate(username = user.username,
                                           password = 'sreejithhere')
