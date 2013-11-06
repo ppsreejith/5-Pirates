@@ -8,7 +8,7 @@
   <script type="text/html" id="pirateTemplate">
     <div class="pirate<%=counter %>">
       <img class="stars" src="<%= stars %>"/>
-      <img class="pirate" src="http://kgts.in/static/images/P<%= imageLink %>.png" data-history="<%=history %>" />
+      <img class="pirate" src="http://kgts.in/static/images/P<%= imageLink %>.png" data-history="<%-history %>" />
     </div>	
   </script>
   <script type="text/html" id="tableTemplate">
@@ -89,7 +89,7 @@
 	<div class="info"></div>
       </div>
       <div class="shipData">
-	{{glo.ship1|safe}}Ship 1: Queen Anne's Revenge. You are First in command (Player 1).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars. Click on the scroll kept on the table to make your moves as player 1. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.
+	{{glo.ship1|safe}}
       </div>
       <div class="pirates">
       </div>
@@ -118,10 +118,6 @@
       </div>
       <div class="dashboardMessage">
 	{{glo.dashboard}}
-	<h1 style="color:white;" title="click here to enter your wing ID"><a href="https://docs.google.com/forms/d/1jnuo5fY160ec8IpZHPTP4-HP5hjRXyiyKeRK7U3MCD0/viewform" target="_blank">Click here for inter-wing competition</a></h1>
-	<h1> SESSION 4 </h1>
-	Click on the bottom left to receive session 1, 2 and 3 histories. As mentioned in the rules, missing 3 sessions will lead to disqualification of player.
-	<div style="width:100%;text-align:center;">CLICK ON MENU ON TOP LEFT TO GET STARTED</div>
       </div>
     </div>
     <div class="mainOption mainOptionRules" style="text-align:center;padding-top:4%;background-image:url({% static "images/backg.jpg" %});background-size:cover;text-align:left;">

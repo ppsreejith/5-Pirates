@@ -37,17 +37,17 @@ def login(request):
             try:
                 profile = Profile.objects.get(facebook_id = user_data['id'])
             except Exception:
-                user = User.objects.create_user(user_data['username'],user_data['email'],'sreejithhere')
+                #user = User.objects.create_user(user_data['username'],user_data['email'],'sreejithhere')
                 
-                user.first_name = user_data['first_name']
-                user.last_name = user_data['last_name']
-                user.save()
-                profile = Profile(user = user,
+                #user.first_name = user_data['first_name']
+                #user.last_name = user_data['last_name']
+                #user.save()
+                #profile = Profile(user = user,
                                   facebook_id = user_data['id'])
-                profile.save()
-                user_login = authenticate(username = user.username,
+                #profile.save()
+                #user_login = authenticate(username = user.username,
                                           password = 'sreejithhere')
-                auth_login(request, user_login)
+                #auth_login(request, user_login)
                 #return redirect('game')
                 return redirect('index')
             else:
