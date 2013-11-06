@@ -3,7 +3,8 @@ from django.db.models import Max
 from core.models import GlobalSettings
 import random
 
-FACTOR = 10
+
+FACTOR = 5
 
 def play_session(sess):
     FACTOR = GlobalSettings.objects.get().bonus_points

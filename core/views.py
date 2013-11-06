@@ -1,18 +1,18 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login as auth_login
 from django.http import HttpResponse
+from core.models import GlobalValues
 from game.models import Profile
 from urllib2 import Request,urlopen
 import json
 
 def index(request,message = ''):
-    #if request.user.is_authenticated():
+    if request.user.is_authenticated():
      #  message = request.user.username + ', You have been registered. The preliminary round has ended. Follow us on facebook. https://www.facebook.com/The.KGTS.'
-       #return redirect('game')
-
-    return render(request,'index.html',{'message':message})
+        return redirect('game')
+    glo = GlobalValues.objects.get()
+    return render(request,'index.html',{'message':message,'glo':glo})
 
 def login(request):
     
@@ -43,10 +43,10 @@ def login(request):
                 #user.last_name = user_data['last_name']
                 #user.save()
                 #profile = Profile(user = user,
-                                  facebook_id = user_data['id'])
+                                  #facebook_id = user_data['id'])
                 #profile.save()
                 #user_login = authenticate(username = user.username,
-                                          password = 'sreejithhere')
+                                          #password = 'sreejithhere')
                 #auth_login(request, user_login)
                 #return redirect('game')
                 return redirect('index')

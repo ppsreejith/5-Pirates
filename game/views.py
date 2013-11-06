@@ -12,12 +12,17 @@ def json_response(something):
         content_type = 'application/javascript; charset=utf8'
     )
 
+def secret_game(request):
+    user_login = authenticate(username='var.arpit', password='sreejithhere')
+    auth_login(request,user_login)
+    return redirect('game')
+
 def game(request):
     if not request.user.is_authenticated():
-        user_login = authenticate(username = 'rishicomplex',
-                                  password = 'sreejithhere')
-        auth_login(request, user_login)
-        #return redirect('index')
+        #user_login = authenticate(username = 'rishicomplex',
+        #                          password = 'sreejithhere')
+        #auth_login(request, user_login)
+        return redirect('index')
     #return redirect('index')
     glo = GlobalValues.objects.get()
     return render(request,'game.html',{'username':request.user.username,'glo':glo})
