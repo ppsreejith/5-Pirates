@@ -1,14 +1,21 @@
 from game.models import RoundAllotment, Strategy, Profile
 from django.db.models import Max
+from core.models import GlobalSettings
 import random
 
+FACTOR = 10
+
 def play_session(sess):
+    FACTOR = GlobalSettings.objects.get().bonus_points
     #for all games in gameallotment of this session
     #play game, record scores in gameallotment, update score of player
     #play game involves 
     games = RoundAllotment.objects.order_by('group_id', 'game_id').filter(session=sess)
     for game in games:
         play_game(game)
+    setting = GlobalSettings.objects.get()
+    setting.bonus_points = FACTOR + 5
+    setting.save()
 
 avg_strats = [[],[],[],[],[]]
     
@@ -56,7 +63,7 @@ def play_game(game):
                 if avg[i] == True:
                     scores.append(0)
                 else:
-                    scores.append(strat_list[curr_posn_cap - 1][i - 1])
+                    scores.append(FACTOR * strat_list[curr_posn_cap - 1][i - 1])
             print scores
             storeScores(game, scores)
             break
