@@ -8,9 +8,9 @@ from urllib2 import Request,urlopen
 import json
 
 def index(request,message = ''):
-    if request.user.is_authenticated():
+    #if request.user.is_authenticated():
      #  message = request.user.username + ', You have been registered. The preliminary round has ended. Follow us on facebook. https://www.facebook.com/The.KGTS.'
-        return redirect('game')
+    #    return redirect('game')
     glo = GlobalValues.objects.get()
     return render(request,'index.html',{'message':message,'glo':glo})
 
