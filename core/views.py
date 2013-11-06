@@ -46,7 +46,7 @@ def login(request):
                                   #facebook_id = user_data['id'])
                 #profile.save()
                 #user_login = authenticate(username = user.username,
-                                          password = 'sreejithhere')
+                                          #password = 'sreejithhere')
                 #auth_login(request, user_login)
                 #return redirect('game')
                 return redirect('index')
