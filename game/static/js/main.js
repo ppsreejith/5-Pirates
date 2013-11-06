@@ -121,11 +121,32 @@ require(['jquery','domReady','backbone','views/pirates','views/table','views/ran
 	
 	//History
 	function createMessage(message,no){
-	    if (message == null)
-		$("div.historyInfo > div.info").html("<h2>Sorry, no history available at the moment.</h2>");
+	    if (message == null or message.length == 0)
+		$("div.historyInfo > div.info").html("<h2>Sorry, This history is not available at the moment.</h2>");
 	    else{
-		var data = JSON.parse(message);
+		var table = $("<table></table>");
+		var row = $("<tr></tr>");
+		var col = $("<th>Section</th>");
+		row.append(col);
+		for(i=1;i<=5;i++){
+		    col = $("<th>Player "+i+"</th>");
+		    row.append(col);
+		}
+		table.append(row);
+		for(i=0;i<message.length;i++){
+		    row = $("<tr></tr>");
+		    row.append($("<td> "+message[i].session+"</td>"));
+		    for(j=1;j<=5;j++){
+			if (j<=no)
+			    col = $("<td style='color:green;'>"+message[i][""+j]+"</td>");
+			else
+			    col = $("<td style='color:red;'>"+message[i][""+j]+"</td>");
+			row.append(col);
+		    }
+		    table.append(row);
+		}
 	    }
+	    $("div.historyInfo").html(table);
 	    $("div.historyInfo").addClass("active");
 	}
 	

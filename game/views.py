@@ -32,13 +32,9 @@ def get_leaderboard(request):
     return json_response(leader_dict)
     
 def stars(request):
-    print 'stars called'
-    #session = GlobalSettings.objects.get().current_session
-    #player = Profile.objects.get(user__username=request.user.username)
-    player = Profile.objects.get(user__username='rishicomplex')
-    session = 3
+    session = GlobalSettings.objects.get().current_session
+    player = Profile.objects.get(user__username=request.user.username)
     star_dict = RoundAllotment.getAllPlayerStars(session, player)
-    print star_dict
     return json_response(star_dict)
 
 def get_allocation(request):
