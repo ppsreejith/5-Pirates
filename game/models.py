@@ -52,6 +52,15 @@ class Strategy(models.Model):
         unique_together = (('player','position','session'))
 
 
+    @classmethod
+    def penalize(cls, player):
+        pen = GlobalSettings.objects.get().penalty_points
+        pts = player.total_points
+        pts -= pen
+        if pts >= 0:
+            player.total_points = pts
+            player.save()
+        
         
     @classmethod
     def create_or_update(cls, playr, posn, sess, amts):
@@ -66,6 +75,7 @@ class Strategy(models.Model):
             strat.amount4 = amts[3]
             strat.amount5 = amts[4]
             strat.times += 1
+            cls.penalize(playr)
         finally:
             strat.save()
     
@@ -73,7 +83,7 @@ class Strategy(models.Model):
     # of amounts, to the other players, are passed along.
     @classmethod
     def newStrategy(cls,session,position,player,amounts):
-        print amounts
+        #print amounts
         if position < 1 or position > 5:
             raise ValidationError("Position should be in (1,2,3,4,5)")
         if any( n<0 for n in amounts ):
@@ -227,7 +237,7 @@ class RoundAllotment(models.Model):
         for arr in hist:
             if arr.session >= session:
                 continue
-            ret.append({'session':arr.session, 'amount1':arr.amount1, 'amount2':arr.amount2, 'amount3':arr.amount3, 'amount4':arr.amount4, 'amount5':arr.amount5})
+            ret.append({'session':arr.session, '1':arr.amount1, '2':arr.amount2, '3':arr.amount3, '4':arr.amount4, '5':arr.amount5})
         return ret
         
         
