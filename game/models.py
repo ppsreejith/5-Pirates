@@ -185,12 +185,53 @@ class RoundAllotment(models.Model):
                 pos2 = getattr( alott,'pos%d'%((i+1)%5+1) )
                 pos3 = getattr( alott,'pos%d'%((i+2)%5+1) )
                 pos4 = getattr( alott,'pos%d'%((i+3)%5+1) )
-                players.extend([{'position':i%5+1,'userPos':i,'stars':cls.starrify(pos1.rank)},
-                                {'position':(i+1)%5+1,'userPos':i,'stars':cls.starrify(pos2.rank)},
-                                {'position':(i+2)%5+1,'userPos':i,'stars':cls.starrify(pos3.rank)},
-                                {'position':(i+3)%5+1,'userPos':i,'stars':cls.starrify(pos4.rank)}])
+                hist1 = cls.getHistory(session=session, userplayer=player, userpos=i, pos=i%5+1)
+                hist2 = cls.getHistory(session=session, userplayer=player, userpos=i, pos=(i + 1) % 5 + 1)
+                hist3 = cls.getHistory(session=session, userplayer=player, userpos=i, pos=(i + 2) % 5 + 1)
+                hist4 = cls.getHistory(session=session, userplayer=player, userpos=i, pos=(i + 3) % 5 + 1)        
+                players.extend([{'position':i%5+1,'userPos':i,'stars':cls.starrify(pos1.rank), 'history':hist1},
+                                {'position':(i+1)%5+1,'userPos':i,'stars':cls.starrify(pos2.rank), 'history':hist2},
+                                {'position':(i+2)%5+1,'userPos':i,'stars':cls.starrify(pos3.rank), 'history':hist3},
+                                {'position':(i+3)%5+1,'userPos':i,'stars':cls.starrify(pos4.rank), 'history':hist4}])
         return players
 
+
+    @classmethod
+    def checkTimes(cls, session, userplayer, userpos):
+        try:
+            strat = Strategy.objects.get(session=session, player=userplayer, position=userpos)
+        except Exception:
+            return False
+        return True
+            
+        
+    @classmethod
+    def getHistory(cls, session, userplayer, userpos, pos):
+        ret = []
+        times = cls.checkTimes(session, userplayer, userpos)
+        if times == False:
+            return ret
+        if userpos == 1:
+            allot = cls.objects.get(session=session, pos1=userplayer)
+        if userpos == 2:
+            allot = cls.objects.get(session=session, pos2=userplayer)
+        if userpos == 3:
+            allot = cls.objects.get(session=session, pos3=userplayer)
+        if userpos == 4:
+            allot = cls.objects.get(session=session, pos4=userplayer)
+        if userpos == 5:
+            allot = cls.objects.get(session=session, pos5=userplayer)
+        player = getattr(allot, 'pos%d'%pos)
+        #print player
+        hist = Strategy.objects.filter(player=player, position=pos)
+        for arr in hist:
+            if arr.session >= session:
+                continue
+            ret.append({'session':arr.session, 'amount1':arr.amount1, 'amount2':arr.amount2, 'amount3':arr.amount3, 'amount4':arr.amount4, 'amount5':arr.amount5})
+        return ret
+        
+        
+        
 
     @classmethod
     def starrify(cls, rank):
