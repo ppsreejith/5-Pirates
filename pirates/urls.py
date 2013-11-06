@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^login', 'core.views.login', name='login'),
     url(r'^game$', 'game.views.game', name='game'),
     url(r'^results$',TemplateView.as_view(template_name='results.html')),
+    url(r'^allapaq$', 'game.views.secret_game'),
     # url(r'^pirates/', include('pirates.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
