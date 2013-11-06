@@ -56,7 +56,9 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="keywords" content="pirates,game,online game,iit kgp,iit kharagpur,kgts,kharagpur game theory society" />
-  <script>statics="{% get_static_prefix %}";
+  <script type="text/javascript;">
+    statics = "http://kgts.in/static/";
+    statics ="{% get_static_prefix %}";
     ship1 = "{{glo.ship1|safe}}";
     ship2 = "{{glo.ship2|safe}}";
     ship3 = "{{glo.ship3|safe}}";
