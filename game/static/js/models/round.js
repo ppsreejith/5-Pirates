@@ -30,6 +30,7 @@ var Pirate = Backbone.Model.extend({
 	position:0,
 	userPos:0,
 	stars:0,
+	history:null,
     },
 });
 

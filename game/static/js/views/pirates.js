@@ -16,6 +16,11 @@ var PirateView = Backbone.View.extend({
 	    that.position = newP.position;
 	    that.render();
 	});
+	globalEvent.on("scroll:submit",function(){
+	    that.pirateCollection.fetch({success:function(){
+		that.render();
+	    }});
+	});
 	this.pirateCollection = new Round.Pirates(),
 	this.pirateCollection.fetch({success:function(){
 	    that.render();
@@ -32,6 +37,7 @@ var PirateView = Backbone.View.extend({
 		'position':pirate.get('position'),
 		'userPos':pirate.get('userPos'),
 		'imageLink':pirate.get('userPos')+""+pirate.get('position'),
+		'history':JSON.stringify(pirate.get('history')),
 		'stars':starData[pirate.get('stars')],
 	    };
 	}

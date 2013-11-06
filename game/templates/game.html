@@ -8,7 +8,7 @@
   <script type="text/html" id="pirateTemplate">
     <div class="pirate<%=counter %>">
       <img class="stars" src="<%= stars %>"/>
-      <img class="pirate" src="http://kgts.in/static/images/P<%= imageLink %>.png"/>
+      <img class="pirate" src="http://kgts.in/static/images/P<%= imageLink %>.png" data-history="<%=history %>" />
     </div>	
   </script>
   <script type="text/html" id="tableTemplate">
@@ -56,7 +56,13 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="keywords" content="pirates,game,online game,iit kgp,iit kharagpur,kgts,kharagpur game theory society" />
-  <script>static="{% get_static_prefix %}";</script>
+  <script>statics="{% get_static_prefix %}";
+    ship1 = "{{glo.ship1|safe}}";
+    ship2 = "{{glo.ship2|safe}}";
+    ship3 = "{{glo.ship3|safe}}";
+    ship4 = "{{glo.ship4|safe}}";
+    ship5 = "{{glo.ship5|safe}}";
+  </script>
   <link href='http://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css'>
   <title>Brethren of the coast</title>
   <link rel="stylesheet" href="{% static "css/global.css" %}" />
@@ -78,8 +84,12 @@
   </div>
   <div class="mainBar">
     <div class="mainOption mainOptionHome">
+      <div class="historyInfo">
+	<span style="cursor:pointer;right:5px;top:5px;z-index:999;" class="closeButton" onclick="removeMessage();">X</span>
+	<div class="info"></div>
+      </div>
       <div class="shipData">
-	Ship 1: Queen Anne's Revenge. You are First in command (Player 1).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars. Click on the scroll kept on the table to make your moves as player 1. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.
+	{{glo.ship1|safe}}Ship 1: Queen Anne's Revenge. You are First in command (Player 1).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars. Click on the scroll kept on the table to make your moves as player 1. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.
       </div>
       <div class="pirates">
       </div>
@@ -107,7 +117,7 @@
       <div class="leaderboardRanks">
       </div>
       <div class="dashboardMessage">
-
+	{{glo.dashboard}}
 	<h1 style="color:white;" title="click here to enter your wing ID"><a href="https://docs.google.com/forms/d/1jnuo5fY160ec8IpZHPTP4-HP5hjRXyiyKeRK7U3MCD0/viewform" target="_blank">Click here for inter-wing competition</a></h1>
 	<h1> SESSION 4 </h1>
 	Click on the bottom left to receive session 1, 2 and 3 histories. As mentioned in the rules, missing 3 sessions will lead to disqualification of player.

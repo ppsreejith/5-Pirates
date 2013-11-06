@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: "http://kgts.in/static/js/",
+    baseUrl: statics+"js/",
     paths: { 
         'jquery': ['http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min','libs/jquery-min.js'],
         'lodash': 'libs/lodash.min',
@@ -39,11 +39,11 @@ require(['jquery','domReady','backbone','views/pirates','views/table','views/ran
 		return;
 	    }
 	    var dashMess={
-		"1":"Ship 1: Queen Anne's Revenge. You are First in command (Player 1).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars. Click on the scroll kept on the table to make your moves as player 1. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
-		"2":"Ship 2: Carolina. You are Second in command (Player 2).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 2. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
-		"3":"Whydah Galley. You are Third in command (Player 3).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 3. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
-		"4":"Adventure Galley. You are Fourth in command (Player 4).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 4. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
-		"5":"Royal Revenge. You are Last in command (Player 5).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 5. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty."
+		"1":ship1+"Ship 1: Queen Anne's Revenge. You are First in command (Player 1).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars. Click on the scroll kept on the table to make your moves as player 1. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"2":ship2+"Ship 2: Carolina. You are Second in command (Player 2).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 2. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"3":ship3+"Whydah Galley. You are Third in command (Player 3).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 3. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"4":ship4+"Adventure Galley. You are Fourth in command (Player 4).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 4. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty.",
+		"5":ship5+"Royal Revenge. You are Last in command (Player 5).<br/><br/>The characters that you see here are your opponents on this ship. The mini map on the bottom left of the screen gives your current ship and position in hierarchy. The stars above each player's head tell his skill level from 1 star to 3 stars.<br/>click on the scroll kept on the table to make your moves as player 5. Then, click on the ship number on the mini map to move to another ship. For today’s sessions you can edit your submissions multiple times. In future, this may be possible only with a penalty."
 	    };
 	    var values = {
 		"1":"first",
@@ -118,6 +118,24 @@ require(['jquery','domReady','backbone','views/pirates','views/table','views/ran
 
 	var route = new Workspace();
 	Backbone.history.start();
+	
+	//History
+	function createMessage(message,no){
+	    if (message == null)
+		$("div.historyInfo > div.info").html("<h2>Sorry, no history available at the moment.</h2>");
+	    else{
+		var data = JSON.parse(message);
+	    }
+	    $("div.historyInfo").addClass("active");
+	}
+	
+	window.removeMessage = function(){
+	    $("div.historyInfo").removeClass("active");
+	}
+	
+	$("div.pirates").on("click","img.pirate",function(){
+	    createMessage($(this).data("history"),parseInt($(this.parentElement).attr("class")[6]));
+	});
 	
 	//Main menu
 	$('div.menuDropDown > a,img.topMenu').click(function(){

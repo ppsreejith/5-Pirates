@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from game.models import RoundAllotment, Profile, Strategy
-from core.models import GlobalSettings
+from core.models import GlobalSettings,GlobalValues
 from django.contrib.auth import authenticate,login as auth_login
 from django.utils import simplejson
 from django.contrib.auth.models import User
@@ -14,12 +14,13 @@ def json_response(something):
 
 def game(request):
     if not request.user.is_authenticated():
-        #user_login = authenticate(username = 'testuser3',
-                      #            password = 'sreejithhere')
-        #auth_login(request, user_login)
-        return redirect('index')
-    return redirect('index')
-    return render(request,'game.html',{'username':request.user.username})
+        user_login = authenticate(username = 'testuser3',
+                                  password = 'sreejithhere')
+        auth_login(request, user_login)
+        #return redirect('index')
+    #return redirect('index')
+    glo = GlobalValues.objects.get()
+    return render(request,'game.html',{'username':request.user.username,'glo':glo})
 
 def get_score(request):
     player = Profile.objects.get(user__username=request.user.username)
