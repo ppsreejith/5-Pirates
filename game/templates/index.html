@@ -45,8 +45,8 @@ height:auto;
 margin-top:-10%;
 padding:10%;
 box-sizing:border-box;
-padding-top:20%;
-padding-bottom:14%;
+padding-top:22%;
+padding-bottom:15%;
 font-size:20px;
 text-align:justify;
 }
@@ -77,15 +77,8 @@ width:100%;
 </head>
 <body>
 <img class="login_logo" src="{% static "images/botc_small.png" %}" /><br/>
-<span class='notifications'>{{message}}</span>
-<a target="_blank" href="http://flavour.net.in/register.php" title="To order now click here" class="flavourad"><img src="{% static "images/flavourad.jpg" %}" /></a>
-<iframe style="position:absolute;left:1%;top:35%;" src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fflavourkgp&width=200&height=80&colorscheme=light&layout=standard&action=like&show_faces=true&send=false&appId=414682281965382" ></iframe>
-<div class="jawedadd" style="top:50%;">
-<p>JAWED HABIB HAIR AND BEAUTY<br/>
-Now In Tech Market, IIT Kharagpur</p>
-<img src="{% static "images/jawedhabib.jpg" %}"/>
-</div>
-<div class='login_scroll'>
+<span class='notifications'>{{message|safe}}</span>
+<div class='login_scroll' style='text-align:center;'>
 {{glo.loginScroll|safe}}
 <a class = 'fb_link' href='https://www.facebook.com/dialog/oauth?scope=email&client_id=414682281965382&redirect_uri=http://brethren.kgts.in:9000/login/'>Log in with facebook</a>
 <iframe style='margin:auto;display:block;border:0;margin-top:4%;' src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FThe.KGTS&width=250&height=80&colorscheme=light&layout=standard&action=like&show_faces=true&send=false&appId=414682281965382"></iframe>

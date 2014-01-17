@@ -8,19 +8,29 @@ from urllib2 import Request,urlopen
 import json
 
 def index(request,message = ''):
-    #if request.user.is_authenticated():
-     #  message = request.user.username + ', You have been registered. The preliminary round has ended. Follow us on facebook. https://www.facebook.com/The.KGTS.'
-    #   return redirect('game')
     glo = GlobalValues.objects.get()
+    if not glo.running:
+        if not message:
+            message = request.user.username + 'The next session will start soon. <a target="_blank" href="https://www.facebook.com/The.KGTS." style="color:lightblue;">Follow us on facebook</a>'
+        return render(request,'index.html',{'message':message,'glo':glo})
+    if request.user.is_authenticated():
+        return redirect('game')
     return render(request,'index.html',{'message':message,'glo':glo})
 
 def login(request):
     
+    glo = GlobalValues.objects.get()
+    #OYE!! LOOK OVER HERE!!!!! SREEJITH!!
+    #Use glo in registration, you need to check these:
+    # If session is inactive, don't allow people to login.
+    # If allowReg (a new variable) is false, dont allow registrations either.
+    
     # The workflow is: we get the `code` from the get request.
-    # We then proceed to exchange it for an `access token` from facebook3
+    # We then proceed to exchange it for an `access token` from facebook
     # We then obtain user info using the `access token` and proceed to
     # either log him in or sign him up.
-    
+    if not glo.running and not glo.allowReg:
+        return redirect('index')
     redirect_uri = 'http://brethren.kgts.in:9000/login/'
     
     fb_code = request.GET.get('code')
@@ -37,29 +47,29 @@ def login(request):
             try:
                 profile = Profile.objects.get(facebook_id = user_data['id'])
             except Exception:
-                #user = User.objects.create_user(user_data['username'],user_data['email'],'sreejithhere')
+                if not glo.allowReg:
+                    return redirect('index_m', message = 'No more registrations allowed.')
+                user = User.objects.create_user(user_data['username'],user_data['email'],'sreejithhere')
                 
-                #user.first_name = user_data['first_name']
-                #user.last_name = user_data['last_name']
-                #user.save()
-                #profile = Profile(user = user,
-                                  #facebook_id = user_data['id'])
-                #profile.save()
-                #user_login = authenticate(username = user.username,
-                                          #password = 'sreejithhere')
-                #auth_login(request, user_login)
-                #return redirect('game')
-                return redirect('index')
+                user.first_name = user_data['first_name']
+                user.last_name = user_data['last_name']
+                user.save()
+                profile = Profile(user = user,
+                                  facebook_id = user_data['id'])
+                profile.save()
+                user_login = authenticate(username = user.username,
+                                          password = 'sreejithhere')
+                auth_login(request, user_login)
+                return redirect('game')
             else:
+                if not glo.running:
+                    return redirect('index_m', message = 'Login not allowed till next session starts.')
                 if profile.user.is_active:
-                    user_login = authenticate(username = profile.user.username,
-                                              password = 'sreejithhere')
+                    user_login = authenticate(username = profile.user.username, password = 'sreejithhere')
                     auth_login(request, user_login)
-                    #return redirect('game')
-                    return redirect('index')
+                    return redirect('game')
                 else:
                     return redirect('index_m', message = 'Your account has been deactivated.')
     except Exception as e:
-        #return HttpResponse(str(e))
 	return redirect('index')
     return redirect('index')

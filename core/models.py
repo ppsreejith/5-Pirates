@@ -17,3 +17,5 @@ class GlobalValues(models.Model):
     ship3 = models.TextField()
     ship4 = models.TextField()
     ship5 = models.TextField()
+    running = models.BooleanField(help_text = "Game running flag")
+    allowReg = models.BooleanField(help_text = "Allow Registrations?")
