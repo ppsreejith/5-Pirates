@@ -19,9 +19,9 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^game/pirates', 'game.views.stars', name='stars'),
     url(r'^game/tables', 'game.views.get_allocation', name='getalloc'),
-    #url(r'^game/setalloc', 'game.views.set_allocation', name='setalloc'),
+    url(r'^game/setalloc', 'game.views.set_allocation', name='setalloc'),
     url(r'^game/leaderboard', 'game.views.get_leaderboard', name='leaderboard'),
-    #url(r'^game/score', 'game.views.get_score', name='score'),
+    url(r'^game/score', 'game.views.get_score', name='score'),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     

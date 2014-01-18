@@ -8,7 +8,7 @@
   <script type="text/html" id="pirateTemplate">
     <div class="pirate<%=counter %>">
       <img class="stars" src="<%= stars %>"/>
-      <img class="pirate" src="http://kgts.in/static/images/P<%= imageLink %>.png" data-history="<%-history %>" />
+      <img class="pirate" src="{% static "images/P<%= imageLink %>.png" %}" data-history="<%-history %>" />
     </div>	
   </script>
   <script type="text/html" id="tableTemplate">
@@ -58,7 +58,6 @@
   <meta name="keywords" content="pirates,game,online game,iit kgp,iit kharagpur,kgts,kharagpur game theory society" />
   <script type="text/javascript">
     a=2;
-    statics = "http://kgts.in/static/";
     statics ="{% get_static_prefix %}";
     ship1 = "{{glo.ship1|safe}}";
     ship2 = "{{glo.ship2|safe}}";

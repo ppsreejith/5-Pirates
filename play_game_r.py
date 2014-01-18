@@ -7,14 +7,14 @@ import random
 FACTOR = 5
 
 def play_session(sess):
-    FACTOR = GlobalSettings.objects.get().bonus_points
+    setting = GlobalSettings.objects.get()
+    FACTOR = setting.bonus_points
     #for all games in gameallotment of this session
     #play game, record scores in gameallotment, update score of player
     #play game involves 
-    games = RoundAllotment.objects.order_by('group_id', 'game_id').filter(session=sess)
+    games = RoundAllotment.objects.filter(session=sess).order_by('group_id', 'game_id')
     for game in games:
         play_game(game)
-    setting = GlobalSettings.objects.get()
     setting.bonus_points = FACTOR + 5
     setting.save()
 
@@ -121,7 +121,10 @@ def getAvgStrategy(position, sess):
             alloc = getattr(strat, 'amount%d'%i)
             avg_strat[i - 1] += alloc
     for i in range(1, 6):
-        avg_strat[i - 1] /= cnt
+        if cnt == 0:
+            avg_strat[i - 1] = 0
+        else:
+            avg_strat[i - 1] /= cnt
     print "Average strategy at position=%d for session=%d is"%(position, sess)
     print avg_strat
     avg_strats[position - 1] = avg_strat

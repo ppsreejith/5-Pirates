@@ -19,3 +19,7 @@ class GlobalValues(models.Model):
     ship5 = models.TextField()
     running = models.BooleanField(help_text = "Game running flag")
     allowReg = models.BooleanField(help_text = "Allow Registrations?")
+    session_time = models.PositiveIntegerField(help_text = "Total time for session")
+    break_time = models.PositiveIntegerField(help_text = "Total break time")
+    endtime = models.DecimalField(max_digits = 18, decimal_places = 5, help_text = "Time to end the session")
+    no_of_sessions = models.PositiveIntegerField(help_text = "Total number of sessions")

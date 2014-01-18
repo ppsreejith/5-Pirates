@@ -53,10 +53,10 @@ def get_allocation(request):
     alloc_dict = Strategy.getHisAlloc(session, player)
     return json_response(alloc_dict)
 
+@login_required
 def set_allocation(request):
     session = GlobalSettings.objects.get().current_session
     player = Profile.objects.get(user__username=request.user)
-    print request.POST.get('val4')
     amounts = [int(request.POST.get('val1')),
                int(request.POST.get('val2')),
                int(request.POST.get('val3')),
