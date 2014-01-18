@@ -74,11 +74,19 @@ require(['jquery','domReady','backbone','views/pirates','views/table','views/ran
 	    var form = $("div.homeTable form.scrollInput");
 	    var formvals = form.find("input.valContent"),sum=0,fc=0;
 	    formvals.each(function(i,e){
-		console.log(e);
 		sum+=parseInt(e.value);
 	    });
 	    if (sum > 100){
 		form.find("span.labelText.scrollError")[0].innerHTML= "You cant give away more than 100";
+		return;
+	    }
+	    var formAccepts = form.find("input.valCont"), acceptFlag = false;
+	    formAccepts.each(function(i,e){
+		if (e.value > 100)
+		    acceptFlag = true;
+	    });
+	    if (acceptFlag){
+		form.find("span.labelText.scrollError")[0].innerHTML= "You cant ask for more 100";
 		return;
 	    }
 	    form.find("span.scrollSubmit")[0].innerHTML="Please Wait";
