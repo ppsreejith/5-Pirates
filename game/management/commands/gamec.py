@@ -42,12 +42,17 @@ class Command(BaseCommand):
                 break
             session += 1
             self.stdout.write("Session evaluated, break time..")
-            time.sleep(self.glo.break_time*60 + 1)
+            self.sleep(self.glo.break_time*60 + 1)
             self.call("start")
-            self.stdout.write("Starting %d session."%session)
-            time.sleep(self.glo.session_time*60 + 1)
+            self.stdout.write("Starting session no: %d."%session)
+            self.sleep(self.glo.session_time*60 + 1)
             #Type the evaluate, start, stopreg
         self.stdout.write("Game over..")
+    
+    def sleep(self,waitTime):
+        self.glo.endtime = time.time() + waitTime
+        self.glo.save()
+        time.sleep(waitTime)
     
     def init(self):
         self.glo.allowReg = False
@@ -67,6 +72,12 @@ class Command(BaseCommand):
         self.stdout.write("..and the darkness began..")
     
     def check(self):
+        message = ''
+        if self.glo.running:
+            message = 'session ends'
+        else:
+            message = 'next session'
+        waitTime = float(self.glo.endtime) - time.time()
         gls = GlobalSettings.objects.get()
         self.stdout.write("""
 Session running:\t%s
@@ -74,8 +85,9 @@ Registrations Allowed:\t%s
 Current session no:\t%d
 Bonus Points:\t%d
 Penalty Points:\t%d
-        """%(self.glo.running,self.glo.allowReg,gls.current_session,
-             gls.bonus_points,gls.penalty_points))
+Time till %s:\t%0.2fs
+        """%(self.glo.running, self.glo.allowReg, gls.current_session,
+             gls.bonus_points, gls.penalty_points, message, waitTime))
     
     def evaluate(self):
         after_a_session.go() 
