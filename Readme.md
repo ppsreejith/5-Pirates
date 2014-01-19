@@ -7,7 +7,7 @@ See the todo.org file
 ##Documentation##
 Commands(Run with python manage.py gamec *command_name*):
 
- - run (Runs game)
+ - run (Runs game, automatically)
  - clear (Clears records)
 
 More to be added soon.
