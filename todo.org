@@ -1,0 +1,6 @@
+* Things to do
+** TODO Database optimization during common reads and writes
+** TODO Adding a timer to login screen and game screen top bar
+** TODO Get better images for pirates
+** TODO Adding backup and recover support
+** TODO Improving UI a bit
